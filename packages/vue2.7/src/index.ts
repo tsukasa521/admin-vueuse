@@ -1,2 +1,1 @@
-console.log('xxx');
-
+export * from './table'

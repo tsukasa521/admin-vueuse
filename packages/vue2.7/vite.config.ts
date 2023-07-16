@@ -3,13 +3,13 @@ import vue from '@vitejs/plugin-vue2'
 
 export default defineConfig({
   server: {
-    port: 10002,
+    port: 11010,
   },
   build: {
     sourcemap: true,
     lib: {
       entry: './src/index.ts',
-      name: 'blink-vue2',
+      name: 'vue-naruto',
       fileName: 'index',
     },
     rollupOptions: {
