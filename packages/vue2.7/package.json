@@ -1,5 +1,5 @@
 {
-  "name": "@2kk/kk-vueuse-vue-naruto",
+  "name": "@2kk/admin-vueuse-naruto",
   "version": "0.0.0",
   "description": "vue2.7 vueuse for KK",
   "main": "./dist/index.umd.js",
