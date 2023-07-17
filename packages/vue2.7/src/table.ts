@@ -10,6 +10,14 @@ export type TableOptions = {
   searchResponseProps: { resultData: string, total: string }
 }
 
+export type MiddleReliefTableOptions = {
+  tableDataResolver: { list: any[], total: number },
+  searchQuery: any,
+  listLoading: false,
+  isPagination: boolean,
+  wash: (list: any[]) => any[],
+}
+
 /**
  * 表格 hook
  */
@@ -70,12 +78,12 @@ export function useTable(options: TableOptions) {
       })
   })
 
-  const handlePageSizeChange = (val) => {
+  const handlePageSizeChange = (val: number) => {
     unref(searchQueryCore).limit = val
     getList()
   }
 
-  const handleCurrentPageChange = (val) => {
+  const handleCurrentPageChange = (val: number) => {
     unref(searchQueryCore).page = val
     getList()
   }
@@ -95,6 +103,33 @@ export function useTable(options: TableOptions) {
     handleCurrentPageChange,
     handlePageSizeChange,
     searchQuery: searchQueryCore,
+  }
+}
+
+export function useMiddleReliefTable(
+  emits: any,
+  options: MiddleReliefTableOptions
+) {
+  const optionsCore = reactive({
+    tableDataResolver: options.tableDataResolver,
+    searchQuery: options.searchQuery || {},
+    isPagination: options.isPagination || true,
+    wash: options.wash || ((list) => list)
+  })
+
+  const handlePageSizeChange = (val: number) => {
+    unref(optionsCore.searchQuery).limit = val
+    emits('get-list')
+  }
+
+  const handleCurrentPageChange = (val: number) => {
+    unref(optionsCore.searchQuery).page = val
+    emits('get-list')
+  }
+
+  return {
+    handleCurrentPageChange,
+    handlePageSizeChange
   }
 }
 
