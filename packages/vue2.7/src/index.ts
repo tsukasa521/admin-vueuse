@@ -1,1 +1,1 @@
-export * from './table'
+export * from "@2kk/admin-vueuse-core/index";

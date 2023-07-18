@@ -34,6 +34,7 @@
     "defu": "^6.0.0"
   },
   "devDependencies": {
+    "@2kk/admin-vueuse-core": "*",
     "@2kk/eslint-config-ts": "*",
     "@vitejs/plugin-vue2": "^2.1.0",
     "cross-env": "^7.0.3",
