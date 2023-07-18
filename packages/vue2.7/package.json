@@ -17,6 +17,9 @@
   "keywords": [],
   "author": "kk++",
   "license": "MIT",
+  "engines": {
+    "node": ">=16"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --declaration --emitDeclarationOnly && vite build",
@@ -24,7 +27,6 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "peerDependencies": {
-    "element-ui": "^2.15",
     "typescript": "^4.7.4",
     "vue": "^2.7"
   },
@@ -35,7 +37,6 @@
     "@2kk/eslint-config-ts": "*",
     "@vitejs/plugin-vue2": "^2.1.0",
     "cross-env": "^7.0.3",
-    "element-ui": "^2.15.10",
     "typescript": "^4.7.4",
     "vite": "^3.2.4",
     "vue": "^2.7.0",

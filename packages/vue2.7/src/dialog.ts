@@ -1,5 +1,4 @@
 import { computed, ref, unref, toRaw, reactive } from 'vue'
-import { Message } from 'element-ui'
 
 export const dialogEmit = [
   'update:visible',
@@ -74,9 +73,8 @@ export function useDialog(props: any, emits: any, options: DialogOptions) {
       const argumentList = args.map(p => toRaw(unref(p)))
       unref(apiFn)(...argumentList)
         .then((res) => {
-          Message.success(`${titleText.value}成功`)
           currentVisible.value = false
-          emits('resolve')
+          // emits('resolve', `${titleText.value}成功`)
           resolve(res)
         })
         .catch((error) => {
