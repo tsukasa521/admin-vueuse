@@ -1,7 +1,7 @@
 {
   "name": "@2kk/admin-vueuse-core",
   "version": "0.0.1",
-  "description": "",
+  "description": "这是一个没有任何编译，当作共享文件使用的package",
   "keywords": [],
   "author": "kk++",
   "license": "MIT",
