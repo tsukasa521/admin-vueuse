@@ -1,6 +1,9 @@
 <template>
   <div>
-    Hello World!
+    <p>Hello World!</p>
+    <div>
+      <t-button>按钮</t-button>
+    </div>
   </div>
 </template>
 
