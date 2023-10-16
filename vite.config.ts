@@ -3,13 +3,13 @@ import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
   server: {
-    port: 10003,
+    port: 1101,
   },
   build: {
     sourcemap: true,
     lib: {
       entry: './src/index.ts',
-      name: 'blink-vue3',
+      name: 'vue-one-piece',
       fileName: 'index',
     },
     rollupOptions: {

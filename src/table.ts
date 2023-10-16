@@ -149,7 +149,7 @@ export function useDropdownItems(...items: DropdownItems[]) {
    * @param row 表格行的数据
    * @returns
    */
-  const getDropdownItems = (row) => {
+  const getDropdownItems = (row: any) => {
     return unref(items).reduce((prev: DropdownItems[], cur) => {
       const config = unref(cur)
       if (config.show == null || config.show === undefined) {
