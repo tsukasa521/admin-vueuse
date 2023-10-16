@@ -1,4 +1,5 @@
-import { computed, ref, unref, toRaw, reactive } from 'vue'
+import { computed, ref, unref, toRaw, reactive, Ref } from 'vue'
+import { useNotification } from './notification'
 
 export const dialogEmit = [
   'update:visible',
@@ -16,7 +17,7 @@ export const dialogProps = {
   }
 }
 
-export const dialogMoProps = {
+export const dialogAddUpdateProps = {
   source: Object
 }
 
@@ -27,13 +28,7 @@ type DialogOptions = {
   dataSourcePropName: string
 }
 
-export function useDialog(props: any, emits: any, options: DialogOptions) {
-  const optionsCore = reactive({
-    title: options.title || '',
-    idPropName: options.idPropName || 'id',
-    dataSourcePropName: options.dataSourcePropName || 'source'
-  })
-
+export function useDialog(props: any, emits: any) {
   const currentVisible = computed({
     get() {
       return props.visible
@@ -43,12 +38,15 @@ export function useDialog(props: any, emits: any, options: DialogOptions) {
     }
   })
 
-  const buttonLoading = ref(false)
+  return { currentVisible }
+}
 
-  const closed = () => {
-    reset()
-    currentVisible.value = false
-  }
+export function useAddUpdateDialog(props: any, emits: any, options: DialogOptions) {
+  const optionsCore = reactive({
+    title: options.title || '',
+    idPropName: options.idPropName || 'id',
+    dataSourcePropName: options.dataSourcePropName || 'source'
+  })
 
   const isAdd = computed(() => !props[optionsCore.dataSourcePropName] || !props[optionsCore.dataSourcePropName]?.[optionsCore.idPropName])
 
@@ -58,12 +56,20 @@ export function useDialog(props: any, emits: any, options: DialogOptions) {
     )
   })
 
-  const titleText = computed(() =>
+  const title = computed(() =>
     unref(isAdd) ? `新建${unref(optionsCore.title)}` : `修改${unref(optionsCore.title)}`
   )
 
+  return { title, isAdd, isUpdate }
+}
+
+export function useSubmitDialog(props: any, emits: any, currentVisible: Ref<boolean>, title: Ref<string>, refForm: Ref<any>) {
+
+  const { showSuccessMessage } = useNotification()
+  const buttonLoading = ref(false)
+
   const submit = async (apiFn: (...p: any[]) => Promise<any>, ...args: any[]) => new Promise((resolve, reject) => {
-    options.refForm?.validate((valid: boolean) => {
+    refForm.value?.validate((valid: boolean) => {
       if (!valid) {
         reject(valid)
         return
@@ -71,10 +77,12 @@ export function useDialog(props: any, emits: any, options: DialogOptions) {
 
       buttonLoading.value = true
       const argumentList = args.map(p => toRaw(unref(p)))
+
       unref(apiFn)(...argumentList)
         .then((res) => {
+          showSuccessMessage(`${title.value}成功`)
           currentVisible.value = false
-          // emits('resolve', `${titleText.value}成功`)
+          emits('resolve')
           resolve(res)
         })
         .catch((error) => {
@@ -87,18 +95,25 @@ export function useDialog(props: any, emits: any, options: DialogOptions) {
   })
 
   const reset = () => {
-    options.refForm?.value?.resetFields()
+    refForm.value?.reset()
   }
 
-  return { currentVisible, closed, titleText, isAdd, isUpdate, buttonLoading, submit, reset }
+  const closed = () => {
+    reset()
+    currentVisible.value = false
+  }
+
+  return { closed, submit, reset, buttonLoading }
 }
 
-/**
- * 不在dialog使用的hooks,主要用于打开dialog
- * @returns
- */
 export function useDialogOutside() {
   const dialogVisible = ref(false)
   const dialogSource = ref(null)
-  return { dialogVisible, dialogSource }
+
+  const openDialog = function <T extends null>(row: T) {
+    dialogVisible.value = true
+    dialogSource.value = row
+  }
+
+  return { dialogVisible, dialogSource, openDialog }
 }
