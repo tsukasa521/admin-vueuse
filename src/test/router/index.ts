@@ -1,11 +1,21 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
 export const routes: RouteRecordRaw[] = [
-  { path: '/', redirect: '/test' },
+  { path: '/', redirect: '/table' },
   {
-    path: '/test',
-    meta: { title: 'Test' },
-    component: () => import('../views/test.vue'),
+    path: '/table',
+    meta: { title: 'Table' },
+    component: () => import('../views/Table.vue'),
+  },
+  {
+    path: '/dialog',
+    meta: { title: 'Dialog' },
+    component: () => import('../views/Dialog.vue'),
+  },
+  {
+    path: '/notification',
+    meta: { title: 'Notification' },
+    component: () => import('../views/Notification.vue'),
   },
 ]
 

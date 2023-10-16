@@ -110,7 +110,7 @@ export function useDialogOutside() {
   const dialogVisible = ref(false)
   const dialogSource = ref(null)
 
-  const openDialog = function <T extends null>(row: T) {
+  const openDialog = (row: any) => {
     dialogVisible.value = true
     dialogSource.value = row
   }
