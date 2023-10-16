@@ -3,7 +3,7 @@
     <t-aside>
       <t-menu theme="light" v-model="activeMenu" @change="navigate">
         <template #logo>
-          <img width="136" class="logo" src="https://www.tencent.com/img/index/menu_logo_hover.png" alt="logo" />
+          <p>Admin Vueuse示例</p>
         </template>
         <t-menu-item value="table">
           useTable示例
@@ -39,4 +39,10 @@ const navigate = (value: MenuValue) => {
 }
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+p {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--td-brand-color-7);
+}
+</style>

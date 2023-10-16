@@ -1,6 +1,5 @@
 <template>
   <section>
-    <p>useTable</p>
     <t-table rowKey="keyNo" :data="list" :columns="columns" size="small" :loading="listLoading" :pagination="pagination"
       cell-empty-content="--"></t-table>
   </section>
@@ -32,9 +31,5 @@ section {
   padding: 20px;
   background: white;
   min-height: calc(100vh - 80px - 20px);
-}
-
-p {
-  color: var(--td-brand-color-7);
 }
 </style>
