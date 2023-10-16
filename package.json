@@ -32,9 +32,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "peerDependencies": {
+    "tdesign-vue-next": "^1.6.2",
     "typescript": "^5.0.2",
-    "vue": "^3.3.4",
-    "tdesign-vue-next": "^1.6.2"
+    "vue": "^3.3.4"
   },
   "dependencies": {
     "defu": "^6.0.0"
@@ -43,6 +43,7 @@
     "@2kk/eslint-config-ts": "*",
     "@vitejs/plugin-vue": "^4.2.3",
     "cross-env": "^7.0.3",
+    "sass": "^1.69.3",
     "tdesign-vue-next": "^1.6.2",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",

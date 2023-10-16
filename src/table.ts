@@ -2,12 +2,12 @@ import { onMounted, reactive, ref, toRefs, unref } from 'vue'
 
 export type TableOptions = {
   tableDataResolver: (...p: any[]) => Promise<any>,
-  searchQuery: any,
-  searchPayload: any[],
-  isPagination: boolean,
-  hasMounted: boolean,
-  wash: (list: any[]) => any[],
-  searchResponseProps: { resultData: string, total: string }
+  searchQuery?: any,
+  searchPayload?: any[],
+  isPagination?: boolean,
+  hasMounted?: boolean,
+  wash?: (list: any[]) => any[],
+  searchResponseProps?: { resultData: string, total: string }
 }
 
 export type MiddleReliefTableOptions = {
@@ -40,6 +40,12 @@ export function useTable(options: TableOptions) {
     limit: 20
   })
 
+  const pagination = reactive({
+    defaultCurrent: searchQueryCore.page,
+    defaultPageSize: searchQueryCore.limit,
+    total: 0
+  })
+
   const o = reactive<{
     listLoading: boolean,
     list: any[],
@@ -65,9 +71,11 @@ export function useTable(options: TableOptions) {
           } = data
           o.list = optionsCore.wash(list)
           o.total = count
+          pagination.total = count
         } else {
           o.list = data
           o.total = o.list.length
+          pagination.total = o.list.length
         }
         resolve(data)
       }).catch((error) => {
@@ -103,6 +111,7 @@ export function useTable(options: TableOptions) {
     handleCurrentPageChange,
     handlePageSizeChange,
     searchQuery: searchQueryCore,
+    pagination
   }
 }
 
