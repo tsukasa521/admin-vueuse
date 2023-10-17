@@ -4,17 +4,17 @@ export const routes: RouteRecordRaw[] = [
   { path: '/', redirect: '/table' },
   {
     path: '/table',
-    meta: { title: 'Table' },
+    meta: { title: 'useTable示例' },
     component: () => import('../views/Table.vue'),
   },
   {
     path: '/dialog',
-    meta: { title: 'Dialog' },
+    meta: { title: 'useDialog示例' },
     component: () => import('../views/Dialog.vue'),
   },
   {
     path: '/notification',
-    meta: { title: 'Notification' },
+    meta: { title: 'useNotification示例' },
     component: () => import('../views/Notification.vue'),
   },
 ]
