@@ -2,3 +2,4 @@
 - 先抛弃vue2版本,专注于vue3版本
 - 现在组件与`t design`耦合,后续得分包
 - 支持`chart`组件,也是先耦合再分包
+- 添加一个sample项目,重新引入`turborepo`
