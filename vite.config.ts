@@ -13,8 +13,8 @@ export default defineConfig({
       fileName: 'index',
     },
     rollupOptions: {
-      output: { globals: { vue: 'Vue' } },
-      external: ['vue'],
+      output: { globals: { vue: 'Vue', 'tdesign-vue-next': 'tdesign-vue-next' } },
+      external: ['vue', 'tdesign-vue-next'],
     },
   },
   plugins: [vue()],
