@@ -10,6 +10,16 @@ export type TableOptions = {
   searchResponseProps?: { resultData: string, total: string }
 }
 
+type TableInnerOptions = {
+  tableDataResolver: (...p: any[]) => Promise<any>,
+  searchQuery: any,
+  searchPayload?: any[],
+  isPagination: boolean,
+  hasMounted: boolean,
+  wash: (list: any[]) => any[],
+  searchResponseProps: { resultData: string, total: string }
+}
+
 export type MiddleReliefTableOptions = {
   tableDataResolver: { list: any[], total: number },
   searchQuery: any,
@@ -24,10 +34,10 @@ export type MiddleReliefTableOptions = {
 export function useTable(options: TableOptions) {
   // todo 验证
 
-  const optionsCore = reactive<TableOptions>({
+  const optionsCore = reactive<TableInnerOptions>({
     tableDataResolver: options.tableDataResolver,
     searchQuery: options.searchQuery || {},
-    searchPayload: options.searchPayload || null,
+    searchPayload: options.searchPayload,
     isPagination: options.isPagination || true,
     hasMounted: options.hasMounted || true,
     wash: options.wash || ((list) => list),
