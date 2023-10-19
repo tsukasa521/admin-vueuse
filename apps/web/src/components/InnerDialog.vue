@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 import { } from "vue";
-import { dialogProps, dialogEmit, dialogAddUpdateProps, useDialog } from "../../dialog";
+import { dialogProps, dialogEmit, dialogAddUpdateProps, useDialog } from "@2kk/admin-vueuse";
 
 const props = defineProps({ ...dialogProps, ...dialogAddUpdateProps })
 
