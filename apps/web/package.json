@@ -1,6 +1,6 @@
 {
-  "name": "sample-web",
-  "description": "专门用来测试的站点",
+  "name": "web-sample",
+  "description": "示例站点",
   "private": true,
   "version": "0.0.0",
   "type": "module",
