@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
 export const routes: RouteRecordRaw[] = [
-  { path: '/', redirect: '/table' },
+  { path: '/', redirect: '/table', meta: { hidden: true } },
   {
     path: '/table',
     meta: { title: 'useTable示例' },
