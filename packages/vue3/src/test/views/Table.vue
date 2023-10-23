@@ -1,28 +1,40 @@
 <template>
   <section>
+    <div>
+      <t-form :data="searchQuery" layout="inline" label-width="0" @submit="search">
+        <t-form-item>
+          <t-input v-model="searchQuery.name" placeholder="请输入姓名"></t-input>
+        </t-form-item>
+        <t-form-item>
+          <t-button theme="primary" type="submit">搜索</t-button>
+        </t-form-item>
+      </t-form>
+    </div>
     <t-table rowKey="keyNo" :data="list" :columns="columns" size="small" :loading="listLoading" :pagination="pagination"
       cell-empty-content="--"></t-table>
   </section>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { reactive, ref } from "vue";
+import { searchTable } from '../apis'
 import { useTable } from "../../table";
 
-const searchApi = () => {
-  return new Promise((resolve, reject) => {
-    const l: any[] = [{ id: '1', name: '张三', age: 25 }, { id: '2', name: '李四', age: 25 }, { id: '3', name: '王五', age: 25 }]
-    resolve({ data: { list: l, count: l.length } })
-  })
-}
-
-const { getList, list, listLoading, searchQuery, pagination } = useTable({ tableDataResolver: searchApi })
+const { getList, list, listLoading, searchQuery, pagination } = useTable(reactive({
+  tableDataResolver: searchTable,
+  searchQuery: { name: '' },
+  wash: (list: any[]) => {
+    return list.map(p => ({ id: p.id, name: p.name, age: p.userAge }))
+  }
+}))
 
 const columns = ref([
   { colKey: 'id', title: 'ID' },
   { colKey: 'name', title: '姓名' },
   { colKey: 'age', title: '年龄' },
 ])
+
+const search = () => { getList() }
 </script>
 
 <style lang="scss" scoped>
