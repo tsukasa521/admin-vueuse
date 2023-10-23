@@ -1,31 +1,38 @@
 import { onMounted, reactive, ref, toRefs, unref } from 'vue'
+import { defu } from "defu"
+
+export type SearchQuery = {
+  page?: number,
+  limit?: number,
+  [key: string]: any
+}
+
+export type SearchResponseProps = {
+  resultData: string,
+  total: string
+}
 
 export type TableOptions = {
   tableDataResolver: (...p: any[]) => Promise<any>,
-  searchQuery?: any,
-  searchPayload?: any[],
+  searchQuery?: SearchQuery,
   isPagination?: boolean,
   hasMounted?: boolean,
-  wash?: (list: any[]) => any[],
-  searchResponseProps?: { resultData: string, total: string }
+  wash?: <T>(list: T[]) => any[],
+  searchResponseProps?: SearchResponseProps
 }
 
 type TableInnerOptions = {
   tableDataResolver: (...p: any[]) => Promise<any>,
-  searchQuery: any,
-  searchPayload?: any[],
+  searchQuery: SearchQuery,
   isPagination: boolean,
   hasMounted: boolean,
-  wash: (list: any[]) => any[],
-  searchResponseProps: { resultData: string, total: string }
+  wash: <T>(list: T[]) => any[],
+  searchResponseProps: SearchResponseProps
 }
 
 export type MiddleReliefTableOptions = {
   tableDataResolver: { list: any[], total: number },
-  searchQuery: any,
-  listLoading: false,
-  isPagination: boolean,
-  wash: (list: any[]) => any[],
+  searchQuery?: SearchQuery
 }
 
 /**
@@ -33,26 +40,18 @@ export type MiddleReliefTableOptions = {
  */
 export function useTable(options: TableOptions) {
   // todo 验证
-
   const optionsCore = reactive<TableInnerOptions>({
     tableDataResolver: options.tableDataResolver,
-    searchQuery: options.searchQuery || {},
-    searchPayload: options.searchPayload,
+    searchQuery: defu(options.searchQuery, { page: 1, limit: 20 }),
     isPagination: options.isPagination || true,
     hasMounted: options.hasMounted || true,
     wash: options.wash || ((list) => list),
-    searchResponseProps: options.searchResponseProps || { resultData: 'list', total: 'count' }
-  })
-
-  const searchQueryCore = reactive({
-    ...unref(optionsCore.searchQuery),
-    page: 1,
-    limit: 20
+    searchResponseProps: defu(options.searchResponseProps, { resultData: 'list', total: 'count' })
   })
 
   const pagination = reactive({
-    defaultCurrent: searchQueryCore.page,
-    defaultPageSize: searchQueryCore.limit,
+    defaultCurrent: optionsCore.searchQuery.page,
+    defaultPageSize: optionsCore.searchQuery.limit,
     total: 0
   })
 
@@ -69,7 +68,7 @@ export function useTable(options: TableOptions) {
   const getList = () => new Promise((resolve, reject) => {
     o.listLoading = true
 
-    const args = optionsCore.searchPayload && optionsCore.searchPayload.length ? [unref(searchQueryCore), ...unref(optionsCore.searchPayload)] : [unref(searchQueryCore)]
+    const args = [unref(optionsCore.searchQuery)]
 
     optionsCore.tableDataResolver(...args)
       .then((res) => {
@@ -97,12 +96,12 @@ export function useTable(options: TableOptions) {
   })
 
   const handlePageSizeChange = (val: number) => {
-    unref(searchQueryCore).limit = val
+    optionsCore.searchQuery.limit = val
     getList()
   }
 
   const handleCurrentPageChange = (val: number) => {
-    unref(searchQueryCore).page = val
+    optionsCore.searchQuery.page = val
     getList()
   }
 
@@ -113,6 +112,7 @@ export function useTable(options: TableOptions) {
   }
 
   const { list, total, listLoading } = toRefs(o)
+  const { searchQuery } = toRefs(optionsCore)
   return {
     list,
     total,
@@ -120,7 +120,7 @@ export function useTable(options: TableOptions) {
     getList,
     handleCurrentPageChange,
     handlePageSizeChange,
-    searchQuery: searchQueryCore,
+    searchQuery,
     pagination
   }
 }
@@ -131,9 +131,7 @@ export function useMiddleReliefTable(
 ) {
   const optionsCore = reactive({
     tableDataResolver: options.tableDataResolver,
-    searchQuery: options.searchQuery || {},
-    isPagination: options.isPagination || true,
-    wash: options.wash || ((list) => list)
+    searchQuery: options.searchQuery || {}
   })
 
   const handlePageSizeChange = (val: number) => {
