@@ -20,9 +20,13 @@ const activeMenu = ref('/table')
 const router = useRouter()
 
 const list = computed(() => {
-  return routes.map(p => {
-    return { title: p.meta?.title, path: p.path }
-  })
+  const initValue: { title: any, path: string }[] = []
+  return routes.reduce((pre, cur) => {
+    if (!cur.meta?.hidden) {
+      pre.push({ title: cur.meta?.title, path: cur.path })
+    }
+    return pre
+  }, initValue)
 })
 
 const navigate = (value: MenuValue) => {

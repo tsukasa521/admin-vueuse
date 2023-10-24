@@ -7,9 +7,22 @@ export type SearchQuery = {
   [key: string]: any
 }
 
+export type SearchInnerQuery = {
+  page: number,
+  limit: number,
+  [key: string]: any
+}
+
+
 export type SearchResponseProps = {
   resultData: string,
   total: string
+}
+
+export type Pagination = {
+  defaultCurrent: number,
+  defaultPageSize: number,
+  total: number
 }
 
 export type TableOptions = {
@@ -17,16 +30,16 @@ export type TableOptions = {
   searchQuery?: SearchQuery,
   isPagination?: boolean,
   hasMounted?: boolean,
-  wash?: <T>(list: T[]) => any[],
-  searchResponseProps?: SearchResponseProps
+  launder?: <T>(list: T[]) => any[],
+  searchResponseProps?: SearchResponseProps,
 }
 
 type TableInnerOptions = {
   tableDataResolver: (...p: any[]) => Promise<any>,
-  searchQuery: SearchQuery,
+  searchQuery: SearchInnerQuery,
   isPagination: boolean,
   hasMounted: boolean,
-  wash: <T>(list: T[]) => any[],
+  launder: <T>(list: T[]) => any[],
   searchResponseProps: SearchResponseProps
 }
 
@@ -43,13 +56,13 @@ export function useTable(options: TableOptions) {
   const optionsCore = reactive<TableInnerOptions>({
     tableDataResolver: options.tableDataResolver,
     searchQuery: defu(options.searchQuery, { page: 1, limit: 20 }),
-    isPagination: options.isPagination || true,
-    hasMounted: options.hasMounted || true,
-    wash: options.wash || ((list) => list),
+    isPagination: options.isPagination == undefined ? true : options.isPagination,
+    hasMounted: options.hasMounted == undefined ? true : options.hasMounted,
+    launder: options.launder || ((list) => list),
     searchResponseProps: defu(options.searchResponseProps, { resultData: 'list', total: 'count' })
   })
 
-  const pagination = reactive({
+  const pagination = ref<Pagination | undefined>({
     defaultCurrent: optionsCore.searchQuery.page,
     defaultPageSize: optionsCore.searchQuery.limit,
     total: 0
@@ -78,13 +91,13 @@ export function useTable(options: TableOptions) {
             [optionsCore.searchResponseProps.resultData]: list,
             [optionsCore.searchResponseProps.total]: count
           } = data
-          o.list = optionsCore.wash(list)
+          o.list = optionsCore.launder(list)
           o.total = count
-          pagination.total = count
+          pagination.value && (pagination.value.total = count)
         } else {
-          o.list = data
+          o.list = optionsCore.launder(data)
           o.total = o.list.length
-          pagination.total = o.list.length
+          pagination.value = undefined
         }
         resolve(data)
       }).catch((error) => {

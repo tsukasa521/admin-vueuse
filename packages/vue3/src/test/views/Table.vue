@@ -10,22 +10,24 @@
         </t-form-item>
       </t-form>
     </div>
-    <t-table rowKey="keyNo" :data="list" :columns="columns" size="small" :loading="listLoading" :pagination="pagination"
+    <t-table rowKey="id" :data="list" :columns="columns" size="small" :loading="listLoading" :pagination="pagination"
       cell-empty-content="--"></t-table>
   </section>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import { searchTable } from '../apis'
 import { useTable } from "../../table";
+import { searchTableByPage, searchTable } from '../apis'
 
 const { getList, list, listLoading, searchQuery, pagination } = useTable(reactive({
   tableDataResolver: searchTable,
-  searchQuery: { name: '' },
+  searchQuery: { name: '', limit: 5 },
   wash: (list: any[]) => {
     return list.map(p => ({ id: p.id, name: p.name, age: p.userAge }))
-  }
+  },
+  hasMounted: true,
+  isPagination: false
 }))
 
 const columns = ref([
