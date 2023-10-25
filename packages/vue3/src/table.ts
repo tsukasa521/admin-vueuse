@@ -51,7 +51,7 @@ export type MiddleReliefTableOptions = {
 /**
  * 表格 hook
  */
-export function useTable(options: TableOptions) {
+export function useTable(options: TableOptions, props: any = null, emits: any = null) {
   // todo 验证
   const optionsCore = reactive<TableInnerOptions>({
     tableDataResolver: options.tableDataResolver,
