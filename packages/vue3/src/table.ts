@@ -48,6 +48,11 @@ export type MiddleReliefTableOptions = {
   searchQuery?: SearchQuery
 }
 
+type MiddleReliefTableInnerOptions = {
+  tableDataResolver: { list: any[], total: number },
+  searchQuery: SearchInnerQuery
+}
+
 /**
  * 表格 hook
  */
@@ -142,19 +147,19 @@ export function useMiddleReliefTable(
   emits: any,
   options: MiddleReliefTableOptions
 ) {
-  const optionsCore = reactive({
+  const optionsCore = reactive<MiddleReliefTableInnerOptions>({
     tableDataResolver: options.tableDataResolver,
-    searchQuery: options.searchQuery || {}
+    searchQuery: defu(options.searchQuery, { page: 1, limit: 20 })
   })
 
   const handlePageSizeChange = (val: number) => {
     unref(optionsCore.searchQuery).limit = val
-    emits('get-list')
+    emits('page-size-change')
   }
 
   const handleCurrentPageChange = (val: number) => {
     unref(optionsCore.searchQuery).page = val
-    emits('get-list')
+    emits('current-page-change')
   }
 
   return {
