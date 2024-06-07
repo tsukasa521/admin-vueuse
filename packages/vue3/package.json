@@ -1,7 +1,7 @@
 {
   "name": "@2kk/admin-vueuse",
-  "version": "0.1.0",
-  "description": "vue3 vueuse for KK",
+  "version": "0.2.0",
+  "description": "A vue 3 hooks like vueuse for admin website",
   "type": "module",
   "main": "./dist/index.umd.cjs",
   "module": "./dist/index.js",
