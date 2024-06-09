@@ -1,22 +1,23 @@
 import { onMounted, reactive, ref, toRefs, unref } from 'vue'
 import { defu } from "defu"
 
-export type SearchQuery = {
-  page?: number,
-  limit?: number,
+export type SearchQueryParam = {
   [key: string]: any
 }
 
-export type SearchInnerQuery = {
-  page: number,
-  limit: number,
-  [key: string]: any
+const SearchQueryDefaultParam = {
+  pageNum: 1,
+  pageSize: 20
 }
 
-
-export type SearchResponseProps = {
+export type ResponseProps = {
   resultData: string,
   total: string
+}
+
+const ResponseDefaultProps = {
+  resultData: 'list',
+  total: 'count'
 }
 
 export type Pagination = {
@@ -25,51 +26,46 @@ export type Pagination = {
   total: number
 }
 
-export type TableOptions = {
-  tableDataResolver: (...p: any[]) => Promise<any>,
-  searchQuery?: SearchQuery,
-  isPagination?: boolean,
-  hasMounted?: boolean,
-  launder?: <T>(list: T[]) => any[],
-  searchResponseProps?: SearchResponseProps,
+export interface TableOptions {
+  tableDataResolver: (...p: any[]) => Promise<any>
+  searchQueryParam: SearchQueryParam
+  isPagination: boolean
+  hasMounted: boolean
+  shim: <T>(list: T[]) => any[]
+  responseProps: ResponseProps
 }
 
-type TableInnerOptions = {
-  tableDataResolver: (...p: any[]) => Promise<any>,
-  searchQuery: SearchInnerQuery,
-  isPagination: boolean,
-  hasMounted: boolean,
-  launder: <T>(list: T[]) => any[],
-  searchResponseProps: SearchResponseProps
-}
+// export type MiddleReliefTableOptions = {
+//   tableDataResolver: { list: any[], total: number },
+//   searchQuery?: SearchQuery
+// }
 
-export type MiddleReliefTableOptions = {
-  tableDataResolver: { list: any[], total: number },
-  searchQuery?: SearchQuery
-}
-
-type MiddleReliefTableInnerOptions = {
-  tableDataResolver: { list: any[], total: number },
-  searchQuery: SearchInnerQuery
-}
+// type MiddleReliefTableInnerOptions = {
+//   tableDataResolver: { list: any[], total: number },
+//   searchQuery: SearchInnerQuery
+// }
 
 /**
- * 表格 hook
+ * table hook
  */
-export function useTable(options: TableOptions) {
+export function useTable(options: Partial<TableOptions> = { searchQueryParam: SearchQueryDefaultParam, isPagination: false, hasMounted: false, shim: (list) => list, responseProps: ResponseDefaultProps }) {
   // todo 验证
-  const optionsCore = reactive<TableInnerOptions>({
+  if (!options.tableDataResolver) {
+    throw new Error("TableDataResolver is required.")
+  }
+
+  const optionsCore = reactive<TableOptions>({
     tableDataResolver: options.tableDataResolver,
-    searchQuery: defu(options.searchQuery, { page: 1, limit: 20 }),
+    searchQueryParam: defu(options.searchQueryParam, SearchQueryDefaultParam),
     isPagination: options.isPagination == undefined ? true : options.isPagination,
     hasMounted: options.hasMounted == undefined ? true : options.hasMounted,
-    launder: options.launder || ((list) => list),
-    searchResponseProps: defu(options.searchResponseProps, { resultData: 'list', total: 'count' })
+    shim: options.shim || ((list) => list),
+    responseProps: defu(options.responseProps, ResponseDefaultProps)
   })
 
   const pagination = ref<Pagination | undefined>({
-    defaultCurrent: optionsCore.searchQuery.page,
-    defaultPageSize: optionsCore.searchQuery.limit,
+    defaultCurrent: optionsCore.searchQueryParam['pageNum'],
+    defaultPageSize: optionsCore.searchQueryParam['pageSize'],
     total: 0
   })
 
@@ -86,21 +82,21 @@ export function useTable(options: TableOptions) {
   const getList = () => new Promise((resolve, reject) => {
     o.listLoading = true
 
-    const args = [unref(optionsCore.searchQuery)]
+    const args = [unref(optionsCore.searchQueryParam)]
 
     optionsCore.tableDataResolver(...args)
       .then((res) => {
         const { data } = res
         if (optionsCore.isPagination) {
           const {
-            [optionsCore.searchResponseProps.resultData]: list,
-            [optionsCore.searchResponseProps.total]: count
+            [optionsCore.responseProps.resultData]: list,
+            [optionsCore.responseProps.total]: count
           } = data
-          o.list = optionsCore.launder(list)
+          o.list = optionsCore.shim(list)
           o.total = count
           pagination.value && (pagination.value.total = count)
         } else {
-          o.list = optionsCore.launder(data)
+          o.list = optionsCore.shim(data)
           o.total = o.list.length
           pagination.value = undefined
         }
@@ -114,12 +110,12 @@ export function useTable(options: TableOptions) {
   })
 
   const handlePageSizeChange = (val: number) => {
-    optionsCore.searchQuery.limit = val
+    optionsCore.searchQueryParam.pageSize = val
     getList()
   }
 
   const handleCurrentPageChange = (val: number) => {
-    optionsCore.searchQuery.page = val
+    optionsCore.searchQueryParam.pageNum = val
     getList()
   }
 
@@ -130,7 +126,7 @@ export function useTable(options: TableOptions) {
   }
 
   const { list, total, listLoading } = toRefs(o)
-  const { searchQuery } = toRefs(optionsCore)
+  const { searchQueryParam } = toRefs(optionsCore)
   return {
     list,
     total,
@@ -138,35 +134,35 @@ export function useTable(options: TableOptions) {
     getList,
     handleCurrentPageChange,
     handlePageSizeChange,
-    searchQuery,
+    searchQueryParam,
     pagination
   }
 }
 
-export function useMiddleReliefTable(
-  emits: any,
-  options: MiddleReliefTableOptions
-) {
-  const optionsCore = reactive<MiddleReliefTableInnerOptions>({
-    tableDataResolver: options.tableDataResolver,
-    searchQuery: defu(options.searchQuery, { page: 1, limit: 20 })
-  })
+// export function useMiddleReliefTable(
+//   emits: any,
+//   options: MiddleReliefTableOptions
+// ) {
+//   const optionsCore = reactive<MiddleReliefTableInnerOptions>({
+//     tableDataResolver: options.tableDataResolver,
+//     searchQuery: defu(options.searchQuery, { page: 1, limit: 20 })
+//   })
 
-  const handlePageSizeChange = (val: number) => {
-    unref(optionsCore.searchQuery).limit = val
-    emits('page-size-change')
-  }
+//   const handlePageSizeChange = (val: number) => {
+//     unref(optionsCore.searchQuery).limit = val
+//     emits('page-size-change')
+//   }
 
-  const handleCurrentPageChange = (val: number) => {
-    unref(optionsCore.searchQuery).page = val
-    emits('current-page-change')
-  }
+//   const handleCurrentPageChange = (val: number) => {
+//     unref(optionsCore.searchQuery).page = val
+//     emits('current-page-change')
+//   }
 
-  return {
-    handleCurrentPageChange,
-    handlePageSizeChange
-  }
-}
+//   return {
+//     handleCurrentPageChange,
+//     handlePageSizeChange
+//   }
+// }
 
 export type DropdownItems = {
   label: string,
