@@ -20,6 +20,14 @@ const TABLE_MOCK_DATA = [
   { id: 19, name: '陈津文', userAge: 25 },
 ]
 
+const TABLE_MOCK_DATA2 = [
+  { id: 1, name: '廖涵衍', userAge: 25 },
+  { id: 2, name: '邓毅然', userAge: 25 },
+  { id: 3, name: '谢承望', userAge: 25 },
+  { id: 4, name: '胡嘉荣', userAge: 25 },
+  { id: 5, name: '胡和平', userAge: 25 },
+]
+
 export const searchTableByPage = (query: any) => {
   console.log("query", query);
 
@@ -37,11 +45,27 @@ export const searchTable = (query: any) => {
 
   return new Promise((resolve, reject) => {
     let list: any[] = TABLE_MOCK_DATA;
+
     if (query.name) {
-      list = list.filter(p => p.name == query.name)
+      list = list.filter(p => p.name.includes(query.name))
     }
     resolve({ data: list })
   })
 }
+
+export const searchTable2 = (query: any) => {
+  console.log("query", query);
+
+  return new Promise((resolve, reject) => {
+    let list: any[] = TABLE_MOCK_DATA2;
+
+    if (query.name) {
+      list = list.filter(p => p.name.includes(query.name))
+    }
+    resolve({ data: list })
+  })
+}
+
+
 
 

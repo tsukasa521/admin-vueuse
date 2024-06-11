@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { useNotification } from "../../notification";
+import { useNotification } from "@2kk/admin-vueuse";
 
 const { showSuccessMessage } = useNotification()
 

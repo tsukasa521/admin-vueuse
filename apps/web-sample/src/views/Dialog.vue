@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { useDialogOutside } from "../../dialog";
+import { useDialogOutside } from "@2kk/admin-vueuse";
 import InnerDialog from "../components/InnerDialog.vue";
 
 const { dialogVisible, openDialog } = useDialogOutside()

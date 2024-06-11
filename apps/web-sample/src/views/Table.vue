@@ -7,6 +7,7 @@
         </t-form-item>
         <t-form-item>
           <t-button theme="primary" type="submit">搜索</t-button>
+          <t-button theme="primary" @click="change">更改</t-button>
         </t-form-item>
       </t-form>
     </div>
@@ -17,18 +18,24 @@
 
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import { useTable } from "../../table";
-import { searchTableByPage, searchTable } from '../apis'
+import { TableOptions, useTable } from "@2kk/admin-vueuse";
+import { searchTable, searchTable2 } from '@/apis'
 
-const { getList, list, listLoading, searchQuery, pagination } = useTable(reactive({
+// todo 支持分页
+
+const options = reactive<TableOptions>({
   tableDataResolver: searchTable,
-  searchQuery: { name: '', limit: 5 },
-  wash: (list: any[]) => {
+  searchQuery: { name: '' },
+  shim: (list: any[]) => {
     return list.map(p => ({ id: p.id, name: p.name, age: p.userAge }))
   },
   hasMounted: true,
-  isPagination: false
-}))
+  isPagination: false,
+})
+
+
+
+const { getList, list, listLoading, searchQuery, pagination } = useTable(options)
 
 const columns = ref([
   { colKey: 'id', title: 'ID' },
@@ -37,6 +44,10 @@ const columns = ref([
 ])
 
 const search = () => { getList() }
+
+const change = () => {
+  options.tableDataResolver = searchTable2
+}
 </script>
 
 <style lang="scss" scoped>
