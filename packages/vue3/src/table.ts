@@ -1,4 +1,4 @@
-import { onMounted, reactive, ref, toRefs, unref } from 'vue'
+import { onMounted, reactive, ref, toRef, toRefs, unref } from 'vue'
 import { defu } from "defu"
 
 export type SearchQueryParam = {
@@ -28,11 +28,11 @@ export type Pagination = {
 
 export interface TableOptions {
   tableDataResolver: (...p: any[]) => Promise<any>
-  searchQueryParam: SearchQueryParam
-  isPagination: boolean
-  hasMounted: boolean
-  shim: <T>(list: T[]) => any[]
-  responseProps: ResponseProps
+  searchQuery?: SearchQueryParam
+  isPagination?: boolean
+  hasMounted?: boolean
+  shim?: <T>(list: T[]) => any[]
+  responseProps?: ResponseProps
 }
 
 // export type MiddleReliefTableOptions = {
@@ -48,24 +48,23 @@ export interface TableOptions {
 /**
  * table hook
  */
-export function useTable(options: Partial<TableOptions> = { searchQueryParam: SearchQueryDefaultParam, isPagination: false, hasMounted: false, shim: (list) => list, responseProps: ResponseDefaultProps }) {
+export function useTable(options: TableOptions) {
   // todo 验证
   if (!options.tableDataResolver) {
     throw new Error("TableDataResolver is required.")
   }
 
-  const optionsCore = reactive<TableOptions>({
-    tableDataResolver: options.tableDataResolver,
-    searchQueryParam: defu(options.searchQueryParam, SearchQueryDefaultParam),
-    isPagination: options.isPagination == undefined ? true : options.isPagination,
-    hasMounted: options.hasMounted == undefined ? true : options.hasMounted,
-    shim: options.shim || ((list) => list),
-    responseProps: defu(options.responseProps, ResponseDefaultProps)
-  })
+  const { tableDataResolver } = toRefs(options);
+
+  const searchQuery = ref(defu(options.searchQuery, SearchQueryDefaultParam))
+  const isPagination = ref(options.isPagination == undefined ? true : options.isPagination)
+  const hasMounted = ref(options.hasMounted == undefined ? true : options.hasMounted)
+  const shim = ref(options.shim || ((list: any[]) => list))
+  const responseProps = ref(defu(options.responseProps, ResponseDefaultProps))
 
   const pagination = ref<Pagination | undefined>({
-    defaultCurrent: optionsCore.searchQueryParam['pageNum'],
-    defaultPageSize: optionsCore.searchQueryParam['pageSize'],
+    defaultCurrent: searchQuery.value.pageNum,
+    defaultPageSize: searchQuery.value.pageSize,
     total: 0
   })
 
@@ -82,21 +81,21 @@ export function useTable(options: Partial<TableOptions> = { searchQueryParam: Se
   const getList = () => new Promise((resolve, reject) => {
     o.listLoading = true
 
-    const args = [unref(optionsCore.searchQueryParam)]
+    const args = [unref(searchQuery)]
 
-    optionsCore.tableDataResolver(...args)
+    unref(tableDataResolver)(...args)
       .then((res) => {
         const { data } = res
-        if (optionsCore.isPagination) {
+        if (isPagination.value) {
           const {
-            [optionsCore.responseProps.resultData]: list,
-            [optionsCore.responseProps.total]: count
+            [responseProps.value.resultData]: list,
+            [responseProps.value.total]: count
           } = data
-          o.list = optionsCore.shim(list)
+          o.list = shim.value(list)
           o.total = count
           pagination.value && (pagination.value.total = count)
         } else {
-          o.list = optionsCore.shim(data)
+          o.list = shim.value(data)
           o.total = o.list.length
           pagination.value = undefined
         }
@@ -110,23 +109,22 @@ export function useTable(options: Partial<TableOptions> = { searchQueryParam: Se
   })
 
   const handlePageSizeChange = (val: number) => {
-    optionsCore.searchQueryParam.pageSize = val
+    searchQuery.value.pageSize = val
     getList()
   }
 
   const handleCurrentPageChange = (val: number) => {
-    optionsCore.searchQueryParam.pageNum = val
+    searchQuery.value.pageNum = val
     getList()
   }
 
-  if (optionsCore.hasMounted) {
+  if (hasMounted.value) {
     onMounted(() => {
       getList()
     })
   }
 
   const { list, total, listLoading } = toRefs(o)
-  const { searchQueryParam } = toRefs(optionsCore)
   return {
     list,
     total,
@@ -134,7 +132,7 @@ export function useTable(options: Partial<TableOptions> = { searchQueryParam: Se
     getList,
     handleCurrentPageChange,
     handlePageSizeChange,
-    searchQueryParam,
+    searchQuery,
     pagination
   }
 }
