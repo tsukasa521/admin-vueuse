@@ -12,30 +12,29 @@
       </t-form>
     </div>
     <t-table rowKey="id" :data="list" :columns="columns" size="small" :loading="listLoading" :pagination="pagination"
-      cell-empty-content="--"></t-table>
+      @page-change="handlePageChange" cell-empty-content="--"></t-table>
   </section>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from "vue";
 import { TableOptions, useTable } from "@2kk/admin-vueuse";
-import { searchTable, searchTable2 } from '@/apis'
+import { searchTableByPage, searchTable, searchTable2 } from '@/apis'
+import { PageInfo } from "tdesign-vue-next";
 
 // todo 支持分页
 
 const options = reactive<TableOptions>({
-  tableDataResolver: searchTable,
-  searchQuery: { name: '' },
+  tableDataResolver: searchTableByPage,
+  searchQuery: { pageSize: 10, name: '' },
   shim: (list: any[]) => {
     return list.map(p => ({ id: p.id, name: p.name, age: p.userAge }))
-  },
-  hasMounted: true,
-  isPagination: false,
+  }
 })
 
 
 
-const { getList, list, listLoading, searchQuery, pagination } = useTable(options)
+const { getList, list, listLoading, searchQuery, pagination, handlePageChange } = useTable(options)
 
 const columns = ref([
   { colKey: 'id', title: 'ID' },

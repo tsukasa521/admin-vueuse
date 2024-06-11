@@ -28,15 +28,28 @@ const TABLE_MOCK_DATA2 = [
   { id: 5, name: '胡和平', userAge: 25 },
 ]
 
+/**
+ * 查询列表（带分页）
+ * @param query 
+ * @returns 
+ */
 export const searchTableByPage = (query: any) => {
   console.log("query", query);
 
+  const { pageNum, pageSize, name } = query
+
   return new Promise((resolve, reject) => {
     let list: any[] = TABLE_MOCK_DATA;
-    if (query.name) {
+    if (name) {
       list = list.filter(p => p.name == query.name)
     }
-    resolve({ data: { list: list, count: list.length } })
+
+    const startIndex = (pageNum - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+
+    const page = list.slice(startIndex, endIndex);
+
+    resolve({ data: { list: page, count: list.length } })
   })
 }
 
