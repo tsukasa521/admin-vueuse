@@ -36,15 +36,10 @@ export interface TableOptions {
   responseProps?: ResponseProps
 }
 
-// export type MiddleReliefTableOptions = {
-//   tableDataResolver: { list: any[], total: number },
-//   searchQuery?: SearchQuery
-// }
-
-// type MiddleReliefTableInnerOptions = {
-//   tableDataResolver: { list: any[], total: number },
-//   searchQuery: SearchInnerQuery
-// }
+export type MiddleReliefTableOptions = {
+  tableDataResolver: { list: any[], total: number },
+  searchQuery?: SearchQueryParam
+}
 
 /**
  * table hook
@@ -146,30 +141,31 @@ export function useTable(options: TableOptions) {
   }
 }
 
-// export function useMiddleReliefTable(
-//   emits: any,
-//   options: MiddleReliefTableOptions
-// ) {
-//   const optionsCore = reactive<MiddleReliefTableInnerOptions>({
-//     tableDataResolver: options.tableDataResolver,
-//     searchQuery: defu(options.searchQuery, { page: 1, limit: 20 })
-//   })
+export function useMiddleReliefTable(
+  emits: any,
+  options: MiddleReliefTableOptions
+) {
+  if (!options.tableDataResolver) {
+    throw new Error("TableDataResolver is required.")
+  }
 
-//   const handlePageSizeChange = (val: number) => {
-//     unref(optionsCore.searchQuery).limit = val
-//     emits('page-size-change')
-//   }
+  const searchQuery = ref(defu(options.searchQuery, SearchQueryDefaultParam))
 
-//   const handleCurrentPageChange = (val: number) => {
-//     unref(optionsCore.searchQuery).page = val
-//     emits('current-page-change')
-//   }
+  const handlePageSizeChange = (val: number) => {
+    searchQuery.value.pageSize = val
+    emits('page-size-change')
+  }
 
-//   return {
-//     handleCurrentPageChange,
-//     handlePageSizeChange
-//   }
-// }
+  const handleCurrentPageChange = (val: number) => {
+    searchQuery.value.pageNum = val
+    emits('current-page-change')
+  }
+
+  return {
+    handleCurrentPageChange,
+    handlePageSizeChange
+  }
+}
 
 export type DropdownItems = {
   label: string,
