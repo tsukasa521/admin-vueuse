@@ -12,6 +12,21 @@
 - Modal 模态框，包含Dialog Drawer
 - Chart 图表
 
+# 运行
+## 安装
+```bash
+yarn add @2kk/admin-vueuse
+```
+
+## 本地运行
+```bash
+yarn
+
+yarn build
+
+yarn dev
+```
+
 # Todo
 - 设计一个logo
 - 分成多个包发布
