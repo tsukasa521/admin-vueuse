@@ -7,13 +7,13 @@
 
 <script setup lang="ts">
 import { } from "vue";
-import { dialogProps, dialogEmit, dialogAddUpdateProps, useDialog } from "../../dialog";
+import { modalProps, modalEmits, modalAddUpdateProps, useModal } from "@2kk/admin-vueuse";
 
-const props = defineProps({ ...dialogProps, ...dialogAddUpdateProps })
+const props = defineProps({ ...modalAddUpdateProps, ...modalAddUpdateProps })
 
-const emits = defineEmits([...dialogEmit])
+const emits = defineEmits([...modalEmits])
 
-const { currentVisible } = useDialog(props, emits)
+const { currentVisible } = useModal(props, emits)
 </script>
 
 <style scoped></style>

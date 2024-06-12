@@ -1,17 +1,17 @@
 <template>
   <section>
-    <t-button @click="openDialog">打开Dialog</t-button>
+    <t-button @click="openModal">打开Dialog</t-button>
 
-    <InnerDialog v-model:visible="dialogVisible" />
+    <InnerDialog v-model:visible="modalVisible" />
   </section>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { useDialogOutside } from "@2kk/admin-vueuse";
-import InnerDialog from "../components/InnerDialog.vue";
+import { useExternalModal } from "@2kk/admin-vueuse";
+import InnerDialog from "@/components/InnerDialog.vue";
 
-const { dialogVisible, openDialog } = useDialogOutside()
+const { modalVisible, openModal } = useExternalModal()
 
 </script>
 
