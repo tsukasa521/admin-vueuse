@@ -1,5 +1,5 @@
 import { computed, ref, unref, toRaw, reactive, Ref } from 'vue'
-import { useMessage } from './message'
+import { useMessage as useVueMessage } from './message'
 
 export const modalEmits = [
   'update:visible',
@@ -77,9 +77,9 @@ export function useAddUpdateModal(props: any, emits: any, options: ModalOptions)
   return { title, isAdd, isUpdate, isPreview: options.isPreview }
 }
 
-export function useSubmitFormModal(props: any, emits: any, currentVisible: Ref<boolean>, refForm: Ref<any>, title: Ref<string>) {
+export function useSubmitFormModal(props: any, emits: any, currentVisible: Ref<boolean>, refForm: Ref<any>, title: Ref<string>, useMessage?: Function) {
 
-  const { showSuccessMessage } = useMessage()
+  const { showSuccessMessage } = useMessage ? useMessage() : useVueMessage()
   const buttonLoading = ref(false)
 
   const submit = async (apiFn: (...p: any[]) => Promise<any>, ...args: any[]) => new Promise((resolve, reject) => {
