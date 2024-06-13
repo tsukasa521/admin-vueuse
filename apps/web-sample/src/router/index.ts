@@ -13,9 +13,9 @@ export const routes: RouteRecordRaw[] = [
     component: () => import('../views/Dialog.vue'),
   },
   {
-    path: '/notification',
-    meta: { title: 'useNotification示例' },
-    component: () => import('../views/Notification.vue'),
+    path: '/message',
+    meta: { title: 'useMessage示例' },
+    component: () => import('../views/Message.vue'),
   },
 ]
 
