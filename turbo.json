@@ -4,6 +4,9 @@
     "dev": {
       "cache": false
     },
+    "preview": {
+      "cache": false
+    },
     "watch": {
       "cache": false
     },
