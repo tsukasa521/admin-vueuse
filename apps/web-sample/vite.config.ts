@@ -7,7 +7,6 @@ export default defineConfig({
     port: 1100,
   },
   build: {
-    sourcemap: true,
     rollupOptions: {
       output: { globals: { vue: 'Vue', 'tdesign-vue-next': 'tdesign-vue-next' } },
       external: ['vue', 'tdesign-vue-next'],

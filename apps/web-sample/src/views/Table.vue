@@ -20,9 +20,6 @@
 import { reactive, ref } from "vue";
 import { TableOptions, useTable } from "@2kk/admin-vueuse";
 import { searchTableByPage, searchTable, searchTable2 } from '@/apis'
-import { PageInfo } from "tdesign-vue-next";
-
-// todo 支持分页
 
 const options = reactive<TableOptions>({
   tableDataResolver: searchTableByPage,
@@ -31,8 +28,6 @@ const options = reactive<TableOptions>({
     return list.map(p => ({ id: p.id, name: p.name, age: p.userAge }))
   }
 })
-
-
 
 const { getList, list, listLoading, searchQuery, pagination, handlePageChange } = useTable(options)
 
