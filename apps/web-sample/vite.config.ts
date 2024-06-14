@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import { viteStaticCopy } from "vite-plugin-static-copy";
 import path from "path"
 
 export default defineConfig({
@@ -12,5 +13,16 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    viteStaticCopy({
+      silent: true,
+      targets: [
+        {
+          src: 'dist/*',
+          dest: path.resolve(__dirname, 'docs')
+        }
+      ]
+    })
+  ],
 })
