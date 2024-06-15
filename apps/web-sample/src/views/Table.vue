@@ -3,7 +3,7 @@
     <h1>
       useTable
     </h1>
-    <SamplePanel>
+    <SamplePanel title="基础用法" description="当子元素中包含时，全部子元素会水平排列，否则会垂直排列。">
       <div>
         <t-form :data="searchQuery" layout="inline" label-width="0" @submit="search">
           <t-form-item>
@@ -18,6 +18,23 @@
       <t-table rowKey="id" :data="list" :columns="columns" size="small" :loading="listLoading" :pagination="pagination"
         @page-change="handlePageChange" cell-empty-content="--"></t-table>
     </SamplePanel>
+
+    <SamplePanel title="不需要分页" description="当子元素中包含时，全部子元素会水平排列，否则会垂直排列。">
+      待完善
+    </SamplePanel>
+
+    <SamplePanel title="进入页面不马上搜索" description="当子元素中包含时，全部子元素会水平排列，否则会垂直排列。">
+      待完善
+    </SamplePanel>
+
+    <SamplePanel title="自定义接受接口返回数据" description="当子元素中包含时，全部子元素会水平排列，否则会垂直排列。">
+      待完善
+    </SamplePanel>
+
+    <SamplePanel title="动态切换列表查询接口" description="当子元素中包含时，全部子元素会水平排列，否则会垂直排列。">
+      待完善
+    </SamplePanel>
+
   </div>
 </template>
 
@@ -51,18 +68,4 @@ const change = () => {
 </script>
 
 <style lang="scss" scoped>
-.page-container {
-  padding: 20px;
-  margin: 0 auto;
-  width: 100%;
-  min-width: 320px;
-  max-width: 960px;
-}
-
-h1 {
-  margin: 0;
-  font-size: 48px;
-  line-height: 56px;
-  font-weight: 700;
-}
 </style>

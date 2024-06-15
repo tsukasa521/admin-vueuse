@@ -1,0 +1,11 @@
+.page-container {
+  padding: 20px;
+  margin: 0 auto;
+  width: 100%;
+  min-width: 320px;
+  max-width: 960px;
+}
+
+h1 {
+  @apply text-5xl font-bold;
+}

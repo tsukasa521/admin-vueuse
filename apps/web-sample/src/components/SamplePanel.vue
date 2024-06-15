@@ -1,8 +1,8 @@
 <template>
   <section>
     <header>
-      <h3>基础用法</h3>
-      <p>当子元素中包含时，全部子元素会水平排列，否则会垂直排列。</p>
+      <h3>{{ title }}</h3>
+      <p>{{ description }}</p>
     </header>
     <main>
       <div class="aaa">
@@ -25,6 +25,16 @@
 
 <script setup lang="ts">
 
+const props = defineProps({
+  title: {
+    type: String,
+    default: ''
+  },
+  description: {
+    type: String,
+    default: ''
+  }
+})
 </script>
 
 <style lang="scss" scoped>
@@ -43,7 +53,9 @@ p {
   color: #333333;
 }
 
-main {}
+main {
+  margin: 24px 0px 48px;
+}
 
 .aaa {
   border: 1px solid #e6e6e6;

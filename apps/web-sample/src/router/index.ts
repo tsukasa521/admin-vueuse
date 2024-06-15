@@ -8,8 +8,8 @@ export const routes: RouteRecordRaw[] = [
     component: () => import('@/views/Table.vue'),
   },
   {
-    path: '/dialog',
-    meta: { title: 'useDialog示例' },
+    path: '/modal',
+    meta: { title: 'useModal示例' },
     component: () => import('@/views/Dialog.vue'),
   },
   {
