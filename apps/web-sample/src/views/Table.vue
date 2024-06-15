@@ -1,24 +1,30 @@
 <template>
-  <section>
-    <div>
-      <t-form :data="searchQuery" layout="inline" label-width="0" @submit="search">
-        <t-form-item>
-          <t-input v-model="searchQuery.name" placeholder="请输入姓名"></t-input>
-        </t-form-item>
-        <t-form-item>
-          <t-button theme="primary" type="submit">搜索</t-button>
-          <t-button theme="primary" @click="change">更改</t-button>
-        </t-form-item>
-      </t-form>
-    </div>
-    <t-table rowKey="id" :data="list" :columns="columns" size="small" :loading="listLoading" :pagination="pagination"
-      @page-change="handlePageChange" cell-empty-content="--"></t-table>
-  </section>
+  <div class="page-container">
+    <h1>
+      useTable
+    </h1>
+    <SamplePanel>
+      <div>
+        <t-form :data="searchQuery" layout="inline" label-width="0" @submit="search">
+          <t-form-item>
+            <t-input v-model="searchQuery.name" placeholder="请输入姓名"></t-input>
+          </t-form-item>
+          <t-form-item>
+            <t-button theme="primary" type="submit">搜索</t-button>
+            <t-button theme="primary" @click="change">更改</t-button>
+          </t-form-item>
+        </t-form>
+      </div>
+      <t-table rowKey="id" :data="list" :columns="columns" size="small" :loading="listLoading" :pagination="pagination"
+        @page-change="handlePageChange" cell-empty-content="--"></t-table>
+    </SamplePanel>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from "vue";
 import { TableOptions, useTable } from "@2kk/admin-vueuse";
+import SamplePanel from "@/components/SamplePanel.vue";
 import { searchTableByPage, searchTable, searchTable2 } from '@/apis'
 
 const options = reactive<TableOptions>({
@@ -45,10 +51,18 @@ const change = () => {
 </script>
 
 <style lang="scss" scoped>
-section {
-  margin: 20px;
+.page-container {
   padding: 20px;
-  background: white;
-  min-height: calc(100vh - 80px - 20px);
+  margin: 0 auto;
+  width: 100%;
+  min-width: 320px;
+  max-width: 960px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 48px;
+  line-height: 56px;
+  font-weight: 700;
 }
 </style>

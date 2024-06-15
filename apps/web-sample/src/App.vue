@@ -4,7 +4,7 @@
       <Menu />
     </t-aside>
     <t-layout>
-      <t-content>
+      <t-content style="background: white;">
         <RouterView />
       </t-content>
     </t-layout>
