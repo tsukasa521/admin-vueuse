@@ -24,7 +24,7 @@ import { useRouter } from "vue-router";
 import { routes } from "../router";
 import { MenuValue } from "tdesign-vue-next";
 
-const activeMenu = ref('/table')
+const activeMenu = ref('/')
 
 const router = useRouter()
 

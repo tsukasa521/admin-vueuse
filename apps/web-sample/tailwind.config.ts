@@ -6,7 +6,21 @@ export default {
     './src/**/*.{js,jsx,ts,tsx,vue}'
   ],
   theme: {
-    extend: {},
+    colors: {
+      primary: 'var(--td-brand-color-7)',
+    },
+    extend: {
+      textColor: {
+        regular: '#333333',
+        secondary: 'rgb(0,0,0,0.6)',
+      },
+      backgroundColor: {
+
+      },
+      borderColor: {
+        base: '#e6e6e6',
+      }
+    }
   },
   plugins: [],
 } satisfies Config

@@ -2,7 +2,7 @@
   <section>
     <header>
       <h3>{{ title }}</h3>
-      <p>{{ description }}</p>
+      <p class="text-sm text-regular">{{ description }}</p>
     </header>
     <main>
       <div class="aaa">
@@ -47,18 +47,12 @@ h3 {
   align-items: center;
 }
 
-p {
-  font-size: 14px;
-  line-height: 22px;
-  color: #333333;
-}
-
 main {
   margin: 24px 0px 48px;
 }
 
 .aaa {
-  border: 1px solid #e6e6e6;
+  @apply border border-solid border-base;
   display: flex;
   flex-direction: column;
   justify-content: center;
