@@ -1,7 +1,12 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
 export const routes: RouteRecordRaw[] = [
-  { path: '/', redirect: '/table', meta: { hidden: true } },
+  { path: '/', redirect: '/getting-started', meta: { hidden: true } },
+  {
+    path: '/getting-started',
+    meta: { title: '快速开始', module: "开始" },
+    component: () => import('@/views/GettingStarted.vue'),
+  },
   {
     path: '/table',
     meta: { title: 'useTable示例', module: "基础" },
