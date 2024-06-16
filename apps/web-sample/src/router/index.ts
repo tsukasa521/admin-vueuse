@@ -4,22 +4,22 @@ export const routes: RouteRecordRaw[] = [
   { path: '/', redirect: '/table', meta: { hidden: true } },
   {
     path: '/table',
-    meta: { title: 'useTable示例' },
+    meta: { title: 'useTable示例', module: "基础" },
     component: () => import('@/views/Table.vue'),
   },
   {
     path: '/modal',
-    meta: { title: 'useModal示例' },
+    meta: { title: 'useModal示例', module: "基础" },
     component: () => import('@/views/Dialog.vue'),
   },
   {
     path: '/message',
-    meta: { title: 'useMessage示例' },
+    meta: { title: 'useMessage示例', module: "基础" },
     component: () => import('@/views/Message.vue'),
   },
   {
     path: '/tdesign/message',
-    meta: { title: 'useMessage示例' },
+    meta: { title: 'useMessage示例', module: "tdesign" },
     component: () => import('@/views/tdesign/Message.vue'),
   },
 ]
@@ -29,3 +29,4 @@ export const router = createRouter({
   history: createWebHistory(baseUrl),
   routes,
 })
+

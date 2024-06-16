@@ -3,9 +3,18 @@
     <template #logo>
       <p>Admin Vueuse</p>
     </template>
-    <t-menu-item v-for="l in list" :value="l.path">
-      {{ l.title }}
-    </t-menu-item>
+
+    <template v-for="menu in list">
+      <t-menu-group v-if="menu.isModule" :title="menu.name">
+        <t-menu-item v-for="m in menu.children" :value="m.path">
+          {{ m.title }}
+        </t-menu-item>
+      </t-menu-group>
+      <t-menu-item v-else v-for="l in list" :value="l.path">
+        {{ l.title }}
+      </t-menu-item>
+    </template>
+
   </t-menu>
 </template>
 
@@ -20,13 +29,26 @@ const activeMenu = ref('/table')
 const router = useRouter()
 
 const list = computed(() => {
-  const initValue: { title: any, path: string }[] = []
-  return routes.reduce((pre, cur) => {
-    if (!cur.meta?.hidden) {
-      pre.push({ title: cur.meta?.title, path: cur.path })
+  const initValue: any = {}
+  const a = routes.reduce((pre, cur) => {
+
+    const module: string = cur.meta?.module as string
+    if (module) {
+      if (!pre[module]) {
+        pre[module] = { name: module, isModule: true, children: [] };
+      }
+      pre[module].children.push({ title: cur.meta?.title, path: cur.path })
+    } else {
+      if (!cur.meta?.hidden) {
+        pre.push({ title: cur.meta?.title, path: cur.path })
+      }
     }
     return pre
   }, initValue)
+
+  console.log(a);
+
+  return a;
 })
 
 const navigate = (value: MenuValue) => {
