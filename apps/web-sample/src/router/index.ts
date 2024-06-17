@@ -13,11 +13,6 @@ export const routes: RouteRecordRaw[] = [
     component: () => import('@/views/Table.vue'),
   },
   {
-    path: '/modal',
-    meta: { title: 'useModal示例', module: "基础" },
-    component: () => import('@/views/Dialog.vue'),
-  },
-  {
     path: '/message',
     meta: { title: 'useMessage示例', module: "基础" },
     component: () => import('@/views/Message.vue'),
@@ -26,6 +21,11 @@ export const routes: RouteRecordRaw[] = [
     path: '/tdesign/table',
     meta: { title: 'useTable示例', module: "tdesign" },
     component: () => import('@/views/tdesign/table/Table.vue'),
+  },
+  {
+    path: '/tdesign/modal',
+    meta: { title: 'useModal示例', module: "tdesign" },
+    component: () => import('@/views/tdesign/modal/Modal.vue'),
   },
   {
     path: '/tdesign/message',

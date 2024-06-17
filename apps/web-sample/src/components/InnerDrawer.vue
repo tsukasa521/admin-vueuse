@@ -1,12 +1,12 @@
 <template>
-  <t-dialog v-model:visible="currentVisible" header="普通对话框" :on-confirm="() => (currentVisible = false)">
+  <t-drawer v-model:visible="currentVisible" header="普通抽屉" :on-confirm="() => (currentVisible = false)"
+    :close-btn="true">
     <div>我是内容</div>
     <div>我是内容</div>
-  </t-dialog>
+  </t-drawer>
 </template>
 
 <script setup lang="ts">
-import { } from "vue";
 import { modalProps, modalEmits, modalAddUpdateProps, useModal } from "@2kk/admin-vueuse";
 
 const props = defineProps({ ...modalProps, ...modalAddUpdateProps })
