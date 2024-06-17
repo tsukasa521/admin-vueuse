@@ -104,13 +104,6 @@ export function useTable(options: TableOptions) {
       })
   })
 
-  // todo 这个方法耦合tdesign，应该移到tdesign的包中
-  const handlePageChange = ({ current, pageSize }: { current: Number, pageSize: Number }) => {
-    searchQuery.value.pageSize = pageSize
-    searchQuery.value.pageNum = current
-    getList()
-  }
-
   const handlePageSizeChange = (val: number) => {
     searchQuery.value.pageSize = val
     getList()
@@ -135,7 +128,6 @@ export function useTable(options: TableOptions) {
     getList,
     handleCurrentPageChange,
     handlePageSizeChange,
-    handlePageChange,
     searchQuery,
     pagination
   }

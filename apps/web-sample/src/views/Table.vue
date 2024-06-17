@@ -1,37 +1,27 @@
 <template>
   <div class="page-container">
-    <h1>
-      useTable
-    </h1>
+    <div>
+      <h1>
+        useTable
+      </h1>
+      <p class="text-sm text-secondary mt-4">
+        useTable应用于常见的列表页场景，包括分页、搜索等。基础包中的useTable采用纯ts实现与控件库解耦，可灵活的应用于各种控件库。
+      </p>
+    </div>
     <SamplePanel title="基础用法" description="当子元素中包含时，全部子元素会水平排列，否则会垂直排列。">
-      <div>
-        <t-form :data="searchQuery" layout="inline" label-width="0" @submit="search">
-          <t-form-item>
-            <t-input v-model="searchQuery.name" placeholder="请输入姓名"></t-input>
-          </t-form-item>
-          <t-form-item>
-            <t-button theme="primary" type="submit">搜索</t-button>
-            <t-button theme="primary" @click="change">更改</t-button>
-          </t-form-item>
-        </t-form>
-      </div>
-      <t-table rowKey="id" :data="list" :columns="columns" size="small" :loading="listLoading" :pagination="pagination"
-        @page-change="handlePageChange" cell-empty-content="--"></t-table>
+      <table border="1" class="w-full">
+        <tr class="w-1/2">
+          <th class="text-left text-base">姓名</th>
+          <th class="text-left text-base">年龄</th>
+        </tr>
+        <tr class="w-1/2" v-for="(item, index) in list">
+          <td>{{ item.name }}</td>
+          <td>{{ item.userAge }}</td>
+        </tr>
+      </table>
     </SamplePanel>
 
     <SamplePanel title="不需要分页" description="当子元素中包含时，全部子元素会水平排列，否则会垂直排列。">
-      待完善
-    </SamplePanel>
-
-    <SamplePanel title="进入页面不马上搜索" description="当子元素中包含时，全部子元素会水平排列，否则会垂直排列。">
-      待完善
-    </SamplePanel>
-
-    <SamplePanel title="自定义接受接口返回数据" description="当子元素中包含时，全部子元素会水平排列，否则会垂直排列。">
-      待完善
-    </SamplePanel>
-
-    <SamplePanel title="动态切换列表查询接口" description="当子元素中包含时，全部子元素会水平排列，否则会垂直排列。">
       待完善
     </SamplePanel>
 
@@ -45,20 +35,10 @@ import SamplePanel from "@/components/SamplePanel.vue";
 import { searchTableByPage, searchTable, searchTable2 } from '@/apis'
 
 const options = reactive<TableOptions>({
-  tableDataResolver: searchTableByPage,
-  searchQuery: { pageSize: 10, name: '' },
-  shim: (list: any[]) => {
-    return list.map(p => ({ id: p.id, name: p.name, age: p.userAge }))
-  }
+  tableDataResolver: searchTableByPage
 })
 
-const { getList, list, listLoading, searchQuery, pagination, handlePageChange } = useTable(options)
-
-const columns = ref([
-  { colKey: 'id', title: 'ID' },
-  { colKey: 'name', title: '姓名' },
-  { colKey: 'age', title: '年龄' },
-])
+const { getList, list, listLoading, searchQuery, pagination } = useTable(options)
 
 const search = () => { getList() }
 
@@ -67,5 +47,4 @@ const change = () => {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -23,6 +23,11 @@ export const routes: RouteRecordRaw[] = [
     component: () => import('@/views/Message.vue'),
   },
   {
+    path: '/tdesign/table',
+    meta: { title: 'useTable示例', module: "tdesign" },
+    component: () => import('@/views/tdesign/table/Table.vue'),
+  },
+  {
     path: '/tdesign/message',
     meta: { title: 'useMessage示例', module: "tdesign" },
     component: () => import('@/views/tdesign/Message.vue'),

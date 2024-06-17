@@ -1,8 +1,8 @@
 <template>
   <section>
     <header>
-      <h3>{{ title }}</h3>
-      <p class="text-sm text-regular">{{ description }}</p>
+      <h3 v-if="title">{{ title }}</h3>
+      <p v-if="description" class="text-sm text-regular">{{ description }}</p>
     </header>
     <main>
       <div class="aaa">
