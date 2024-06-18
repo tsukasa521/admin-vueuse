@@ -47,7 +47,7 @@ export function useModal(props: any, emits: any) {
 
 export function useExternalModal() {
   const modalVisible = ref(false)
-  const modalSource = ref(null)
+  const modalSource = ref<any>(null)
 
   const openModal = (source: any) => {
     modalVisible.value = true
