@@ -15,7 +15,7 @@ export default {
         secondary: 'rgb(0,0,0,0.6)',
       },
       backgroundColor: {
-
+        base: '#f3f3f3'
       },
       borderColor: {
         base: '#e6e6e6',

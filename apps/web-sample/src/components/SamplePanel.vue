@@ -2,7 +2,7 @@
   <section>
     <header>
       <h3 v-if="title">{{ title }}</h3>
-      <p v-if="description" class="text-sm text-regular">{{ description }}</p>
+      <p v-if="description" class="text-sm text-secondary text-regular">{{ description }}</p>
     </header>
     <main>
       <div class="aaa">

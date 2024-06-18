@@ -1,13 +1,23 @@
 <template>
-  <section>
-    <t-space>
-      <t-button @click="openSuccess">打开成功状态提示语句</t-button>
-
-      <t-button theme="warning" @click="openWarning">打开警告状态提示语句</t-button>
-
-      <t-button theme="danger" @click="openError">打开错误状态提示语句</t-button>
-    </t-space>
-  </section>
+  <div class="page-container">
+    <div>
+      <h1>
+        useMessage
+      </h1>
+      <p class="text-sm text-secondary mt-4">
+        useMessage主要用于提示场景。tdesign包中的useMessage与tdesign控件库解耦，会直接使用message组件来提示消息。
+      </p>
+    </div>
+    <SamplePanel title="基础用法" description="当子元素中包含时，全部子元素会水平排列，否则会垂直排列。">
+      <t-space>
+        <t-button @click="openSuccess">打开成功状态提示语句</t-button>
+        
+        <t-button theme="warning" @click="openWarning">打开警告状态提示语句</t-button>
+        
+        <t-button theme="danger" @click="openError">打开错误状态提示语句</t-button>
+      </t-space>
+    </SamplePanel>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -29,11 +39,5 @@ const openError = () => {
 }
 </script>
 
-<style scoped>
-section {
-  margin: 20px;
-  padding: 20px;
-  background: white;
-  min-height: calc(100vh - 80px - 20px);
-}
+<style lang="scss" scoped>
 </style>

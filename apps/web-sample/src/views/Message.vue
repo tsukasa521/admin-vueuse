@@ -1,16 +1,21 @@
 <template>
   <div class="page-container">
-    <h1>
-      useModal
-    </h1>
-    <SamplePanel title="基础用法" description="当子元素中包含时，全部子元素会水平排列，否则会垂直排列。">
+    <div>
+      <h1>
+        useMessage
+      </h1>
+      <p class="text-sm text-secondary mt-4">
+        useMessage主要用于提示场景。基础包中的useMessage与控件库解耦，所以不会有具体的UI体现，仅会在浏览器控制台里看到。
+      </p>
+    </div>
 
+    <SamplePanel title="基础用法">
       <t-space>
-        <t-button @click="openSuccess">打开成功状态提示语句</t-button>
+        <p class="bg-base py-2 px-5 cursor-pointer" @click="openSuccess">打开成功状态提示语句</p>
 
-        <t-button theme="warning" @click="openWarning">打开警告状态提示语句</t-button>
+        <p class="bg-base py-2 px-5 cursor-pointer" @click="openWarning">打开警告状态提示语句</p>
 
-        <t-button theme="danger" @click="openError">打开错误状态提示语句</t-button>
+        <p class="bg-base py-2 px-5 cursor-pointer" @click="openError">打开错误状态提示语句</p>
       </t-space>
     </SamplePanel>
   </div>
