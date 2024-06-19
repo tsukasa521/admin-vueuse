@@ -79,6 +79,11 @@ export const searchTable2 = (query: any) => {
   })
 }
 
+export function submitForm(formData: any) {
+  return new Promise((resolve, reject) => {
+    resolve(formData)
+  })
+}
 
 
 

@@ -77,6 +77,16 @@ export function useAddUpdateModal(props: any, emits: any, options: ModalOptions)
   return { title, isAdd, isUpdate, isPreview: options.isPreview }
 }
 
+/**
+ * todo 这个方法和控件库耦合严重，要移动控件库对应的包中
+ * @param props 
+ * @param emits 
+ * @param currentVisible 
+ * @param refForm 
+ * @param title 
+ * @param useMessage 
+ * @returns 
+ */
 export function useSubmitFormModal(props: any, emits: any, currentVisible: Ref<boolean>, refForm: Ref<any>, title: Ref<string>, useMessage?: Function) {
 
   const { showSuccessMessage } = useMessage ? useMessage() : useVueMessage()
