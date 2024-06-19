@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
-    "preview":"turbo run preview",
+    "build:p": "turbo run build --filter={./packages/**}",
+    "preview": "turbo run preview",
     "lint": "turbo run lint",
     "test": "turbo run test"
   },
