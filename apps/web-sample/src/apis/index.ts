@@ -41,7 +41,7 @@ export const searchTableByPage = (query: any) => {
   return new Promise((resolve, reject) => {
     let list: any[] = TABLE_MOCK_DATA;
     if (name) {
-      list = list.filter(p => p.name == query.name)
+      list = list.filter(p => p.name.includes(name))
     }
 
     const startIndex = (pageNum - 1) * pageSize;

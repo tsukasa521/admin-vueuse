@@ -33,6 +33,11 @@ export const routes: RouteRecordRaw[] = [
     component: () => import('@/views/tdesign/Message.vue'),
   },
   {
+    path: '/element-plus/table',
+    meta: { title: 'useTable示例', module: "element-plus" },
+    component: () => import('@/views/element-plus/table'),
+  },
+  {
     path: '/element-plus/message',
     meta: { title: 'useMessage示例', module: "element-plus" },
     component: () => import('@/views/element-plus/Message.vue'),
