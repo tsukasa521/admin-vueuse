@@ -32,6 +32,11 @@ export const routes: RouteRecordRaw[] = [
     meta: { title: 'useMessage示例', module: "tdesign" },
     component: () => import('@/views/tdesign/Message.vue'),
   },
+  {
+    path: '/element-plus/message',
+    meta: { title: 'useMessage示例', module: "element-plus" },
+    component: () => import('@/views/element-plus/Message.vue'),
+  },
 ]
 
 const baseUrl = import.meta.env.BASE_URL
