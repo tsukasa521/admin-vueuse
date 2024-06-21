@@ -41,7 +41,7 @@ export const searchTableByPage = (query: any) => {
   return new Promise((resolve, reject) => {
     let list: any[] = TABLE_MOCK_DATA;
     if (name) {
-      list = list.filter(p => p.name.includes(name))
+      list = list.filter(p => p.userName.includes(name))
     }
 
     const startIndex = (pageNum - 1) * pageSize;
@@ -60,7 +60,7 @@ export const searchTable = (query: any) => {
     let list: any[] = TABLE_MOCK_DATA;
 
     if (query.name) {
-      list = list.filter(p => p.name.includes(query.name))
+      list = list.filter(p => p.userName.includes(query.name))
     }
     resolve({ data: list })
   })
@@ -73,7 +73,7 @@ export const searchTable2 = (query: any) => {
     let list: any[] = TABLE_MOCK_DATA2;
 
     if (query.name) {
-      list = list.filter(p => p.name.includes(query.name))
+      list = list.filter(p => p.userName.includes(query.name))
     }
     resolve({ data: list })
   })
