@@ -31,8 +31,8 @@ const { getList, list, listLoading, searchQuery, pagination } = useTable(options
 
 const columns = ref([
   { colKey: 'id', title: 'ID' },
-  { colKey: 'name', title: '姓名' },
-  { colKey: 'userAge', title: '年龄' },
+  { colKey: 'userName', title: '姓名' },
+  { colKey: 'age', title: '年龄' },
 ])
 
 const search = () => { getList() }

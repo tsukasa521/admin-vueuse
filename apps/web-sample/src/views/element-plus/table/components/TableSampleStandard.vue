@@ -11,7 +11,7 @@
       </el-form>
     </div>
     <el-table :data="list" size="small" :loading="listLoading">
-      <el-table-column prop="name" label="姓名" />
+      <el-table-column prop="userName" label="姓名" />
       <el-table-column prop="age" label="年龄" />
     </el-table>
     <div class="mt-5 flex justify-end">
@@ -29,10 +29,7 @@ import { searchTableByPage } from '@/apis'
 
 const options = reactive<TableOptions>({
   tableDataResolver: searchTableByPage,
-  searchQuery: { pageSize: 10, name: '' },
-  shim: (list: any[]) => {
-    return list.map(p => ({ id: p.id, name: p.name, age: p.userAge }))
-  }
+  searchQuery: { pageSize: 10, name: '' }
 })
 
 const { getList, list, listLoading, total, searchQuery, pagination, handlePageChange } = useTable(options)

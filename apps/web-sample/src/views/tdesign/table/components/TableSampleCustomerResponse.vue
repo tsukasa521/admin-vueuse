@@ -26,7 +26,7 @@ const options = reactive<TableOptions>({
   tableDataResolver: searchTableByPage,
   searchQuery: { pageSize: 10, name: '' },
   shim: (list: any[]) => {
-    return list.map(p => ({ id: p.id, name: p.name, age: p.userAge }))
+    return list.map(p => ({ id: p.id, name: p.userName, age: p.age }))
   }
 })
 
