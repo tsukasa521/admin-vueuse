@@ -60,6 +60,7 @@ const navigate = (value: MenuValue) => {
 p {
   font-size: 20px;
   font-weight: 700;
-  color: var(--td-brand-color-7);
+  @apply text-regular
+  /* color: var(--td-brand-color-7); */
 }
 </style>
