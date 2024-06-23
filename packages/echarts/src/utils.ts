@@ -18,8 +18,8 @@ export function debounce(func: any, wait: number, immediate?: boolean) {
     }
   }
 
-  return function fn(...args:any) {
-    context = this
+  return function fn(this: any, ...args: any) {
+    context = this;
     timestamp = +new Date()
     const callNow = immediate && !timeout
     // 如果延时不存在，重新设定延时
