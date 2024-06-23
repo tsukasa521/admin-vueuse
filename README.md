@@ -31,7 +31,8 @@ yarn dev
 - 设计一个logo
 - 分成多个包发布
 - 丰富示例站里的示例
-- 示例站菜单分块：开始、基础、tdesign、element-ui、ant design
+- 新增useChart
+- 新增element-plus包
 - 示例站需要支持多个主流控件库
 - 支持uni-app vue3
 
