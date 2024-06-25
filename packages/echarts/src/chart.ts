@@ -23,3 +23,15 @@ export function useChart(key: string, options: any) {
 
   return { chart }
 }
+
+export function useChartOptions() {
+  // todo bar
+
+  // todo area line 
+
+  // todo line
+
+  // todo pie
+
+  // todo doughnut pie  
+}
