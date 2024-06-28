@@ -16,6 +16,25 @@ export interface ChartLegend {
   top: String | 'bottom'
 }
 
+/**
+ * category轴、value轴
+ */
+export type axis = {
+  type: string | 'category' | 'value',
+  data?: string[],
+  axisLabel?: {
+    formatter?: (value: string) => string | string
+  }
+}
+
+/**
+ * 用户输入的表格数据
+ */
+export type tableData = {
+  name:string,
+  rows: string[]
+}
+
 export function useChart(key: string, options: any) {
   let chart: echarts.EChartsType | null = null
 
