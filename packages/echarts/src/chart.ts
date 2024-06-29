@@ -30,9 +30,17 @@ export type axis = {
 /**
  * 用户输入的表格数据
  */
-export type tableData = {
-  name:string,
-  rows: string[]
+export type DataRow = {
+  name: string,
+  data: string[]
+}
+
+export interface ChartOptions {
+  title?: string,
+  legend?: boolean,
+  categories: string[],
+  series: DataRow[],
+  isXYAxisReverse?: boolean
 }
 
 export function useChart(key: string, options: any) {
