@@ -19,7 +19,7 @@ export interface ChartLegend {
 /**
  * category轴、value轴
  */
-export type axis = {
+export type ChartAxis = {
   type: string | 'category' | 'value',
   data?: string[],
   axisLabel?: {
@@ -30,17 +30,17 @@ export type axis = {
 /**
  * 用户输入的表格数据
  */
-export type DataRow = {
+export type SeriesRow = {
   name: string,
   data: string[]
 }
 
 export interface ChartOptions {
-  title?: string,
-  legend?: boolean,
-  categories: string[],
-  series: DataRow[],
-  isXYAxisReverse?: boolean
+  title?: string, // 标题
+  legend?: boolean, // 是否显示图例
+  categories: string[], // x轴内容
+  series: SeriesRow[], // y轴内容
+  isXYAxisReverse?: boolean // 是否反转x轴和y轴
 }
 
 export function useChart(key: string, options: any) {
