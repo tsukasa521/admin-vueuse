@@ -3,24 +3,24 @@ import * as echarts from 'echarts'
 import { debounce } from './utils'
 
 export interface ChartTitle {
-  text: string
+  text: string,
 }
 
 export type ChartColor = string[]
 
 export interface ChartTooltip {
-  trigger: string | 'item'
+  trigger: "item" | string
 }
 
 export interface ChartLegend {
-  top: String | 'bottom'
+  top: 'bottom' | string
 }
 
 /**
  * category轴、value轴
  */
 export type ChartAxis = {
-  type: string | 'category' | 'value',
+  type: 'category' | 'value' | string
   data?: string[],
   axisLabel?: {
     formatter?: (value: string) => string | string
@@ -32,7 +32,7 @@ export type ChartAxis = {
  */
 export type SeriesRow = {
   name: string,
-  data: string[]
+  data: string[] | number[]
 }
 
 export interface ChartOptions {
@@ -65,14 +65,79 @@ export function useChart(key: string, options: any) {
   return { chart }
 }
 
+/**
+ * todo 可以放一些全局入参
+ */
 export function useChartOptions() {
   // todo bar
+  const generateBarChartOptions = (options: ChartOptions) => {
+    const { categories, series, isXYAxisReverse } = options
+    const xAxis: ChartAxis = {
+      type: 'category',
+      data: categories
+    }
+    const yAxis: ChartAxis = {
+      type: 'value'
+    }
+
+    const title: ChartTitle | null = options.title ? { text: options.title } : null;
+
+    const tooltip: ChartTooltip = { trigger: 'item' };
+
+    const legend: ChartLegend | null = { top: 'bottom' };
+
+    return {
+      title,
+      tooltip,
+      legend,
+      xAxis: isXYAxisReverse ? yAxis : xAxis,
+      yAxis: isXYAxisReverse ? xAxis : yAxis,
+      series: series.map((row: SeriesRow) => {
+        return {
+          name: row.name,
+          type: 'bar',
+          data: row.data
+        }
+      })
+    }
+  }
+
 
   // todo area line 
 
   // todo line
+  const generateLineChartOptions = (options: ChartOptions) => {
+    const { categories, series, isXYAxisReverse } = options
+    const xAxis: ChartAxis = {
+      type: 'category',
+      data: categories
+    }
+    const yAxis: ChartAxis = {
+      type: 'value'
+    }
+
+    const title: ChartTitle | null = options.title ? { text: options.title } : null;
+
+    return {
+      title,
+      xAxis: isXYAxisReverse ? yAxis : xAxis,
+      yAxis: isXYAxisReverse ? xAxis : yAxis,
+      series: series.map((row: SeriesRow) => {
+        return {
+          name: row.name,
+          type: 'bar',
+          data: row.data
+        }
+      })
+    }
+  }
 
   // todo pie
 
   // todo doughnut pie  
+
+  return {
+    generateBarChartOptions,
+    generateLineChartOptions
+  }
 }
