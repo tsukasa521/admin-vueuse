@@ -47,6 +47,11 @@ export const routes: RouteRecordRaw[] = [
     meta: { title: 'useMessage示例', module: "element-plus" },
     component: () => import('@/views/element-plus/Message.vue'),
   },
+  {
+    path: '/echarts',
+    meta: { title: 'useChart示例', module: "echarts" },
+    component: () => import('@/views/echarts'),
+  },
 ]
 
 const baseUrl = import.meta.env.BASE_URL
