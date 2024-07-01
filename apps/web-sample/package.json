@@ -24,6 +24,8 @@
     "@2kk/admin-vueuse": "*",
     "@2kk/admin-vueuse-tdesign": "*",
     "@2kk/admin-vueuse-element-plus": "*",
+    "@2kk/admin-vueuse-echarts": "*",
+    "echarts": "^5.4.3",
     "element-plus": "^2.7.5",
     "tdesign-vue-next": "^1.6.2",
     "vue": "^3.3.4",
