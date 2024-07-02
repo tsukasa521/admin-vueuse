@@ -31,16 +31,28 @@ export type ChartAxis = {
  * 用户输入的表格数据
  */
 export type SeriesRow = {
-  name: string,
-  data: string[] | number[]
+  name?: string,
+  data: string[] | number[] | PieData[]
 }
 
-export interface ChartOptions {
+export type PieData = {
+  name: string,
+  value: number | string
+}
+
+export interface ChartBaseOptions {
   title?: string, // 标题
   legend?: boolean, // 是否显示图例
-  categories: string[], // x轴内容
   series: SeriesRow[], // y轴内容
+}
+
+export interface ChartOptions extends ChartBaseOptions {
+  categories: string[], // x轴内容
   isXYAxisReverse?: boolean // 是否反转x轴和y轴
+}
+
+export interface ChartPieOptions extends ChartBaseOptions {
+
 }
 
 export function useChart(key: string, options: any) {
@@ -118,14 +130,20 @@ export function useChartOptions() {
 
     const title: ChartTitle | null = options.title ? { text: options.title } : null;
 
+    const tooltip: ChartTooltip = { trigger: 'item' };
+
+    const legend: ChartLegend | null = { top: 'bottom' };
+
     return {
       title,
+      tooltip,
+      legend,
       xAxis: isXYAxisReverse ? yAxis : xAxis,
       yAxis: isXYAxisReverse ? xAxis : yAxis,
       series: series.map((row: SeriesRow) => {
         return {
           name: row.name,
-          type: 'bar',
+          type: 'line',
           data: row.data
         }
       })
@@ -133,11 +151,33 @@ export function useChartOptions() {
   }
 
   // todo pie
+  const generatePieChartOptions = (options: ChartPieOptions) => {
+    const { series } = options
+
+    const title: ChartTitle | null = options.title ? { text: options.title } : null;
+
+    const tooltip: ChartTooltip = { trigger: 'item' };
+
+    const legend: ChartLegend | null = { top: 'bottom' };
+
+    return {
+      title,
+      tooltip,
+      legend,
+      series: series.map((row: SeriesRow) => {
+        return {
+          type: 'pie',
+          data: row.data
+        }
+      })
+    }
+  }
 
   // todo doughnut pie  
 
   return {
     generateBarChartOptions,
-    generateLineChartOptions
+    generateLineChartOptions,
+    generatePieChartOptions
   }
 }
