@@ -3,7 +3,7 @@ import * as echarts from 'echarts'
 import { debounce } from './utils'
 
 export interface ChartTitle {
-  text: string,
+  text: string
 }
 
 export type ChartColor = string[]
@@ -41,14 +41,29 @@ export type PieData = {
 }
 
 export interface ChartBaseOptions {
-  title?: string, // 标题
-  legend?: boolean, // 是否显示图例
-  series: SeriesRow[], // y轴内容
+  /**
+   * 标题
+   */
+  title?: string,
+  /**
+   * 是否显示图例
+   */
+  legend?: boolean,
+  /**
+   * 系列内容
+   */
+  series: SeriesRow[],
 }
 
 export interface ChartOptions extends ChartBaseOptions {
-  categories: string[], // x轴内容
-  isXYAxisReverse?: boolean // 是否反转x轴和y轴
+  /**
+   * x轴内容
+   */
+  categories: string[],
+  /**
+   * 是否反转x轴和y轴
+   */
+  isXYAxisReverse?: boolean
 }
 
 export interface ChartPieOptions extends ChartBaseOptions {
