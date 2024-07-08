@@ -39,7 +39,7 @@ jobs:
     - name: Install
       run: yarn
     - name: Build
-      run: yarn build:prod
+      run: yarn page
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
