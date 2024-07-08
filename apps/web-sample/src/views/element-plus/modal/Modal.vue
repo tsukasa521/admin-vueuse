@@ -24,7 +24,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { ModalSampleStandard, ModalSampleAddUpdate, ModalSampleFormSubmit, ModalSampleCustomProps, ModalSampleDrawer } from "./components";
+import { ModalSampleStandard, ModalSampleAddUpdate } from "./components";
 
 </script>
 
