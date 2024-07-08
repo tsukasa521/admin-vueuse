@@ -15,15 +15,6 @@ export default defineConfig({
     },
   },
   plugins: [
-    vue(),
-    viteStaticCopy({
-      silent: true,
-      targets: [
-        {
-          src: 'dist/*',
-          dest: path.resolve(__dirname, '../..', 'pages')
-        }
-      ]
-    })
+    vue()
   ],
 })
