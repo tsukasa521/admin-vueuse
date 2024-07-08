@@ -21,7 +21,7 @@ export default defineConfig({
       targets: [
         {
           src: 'dist/*',
-          dest: path.resolve(__dirname, '../..', 'docs')
+          dest: path.resolve(__dirname, '../..', 'pages')
         }
       ]
     })
