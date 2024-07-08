@@ -1,5 +1,5 @@
 export { default as ModalSampleStandard } from './ModalSampleStandard.vue'
 export { default as ModalSampleAddUpdate } from './ModalSampleAddUpdate.vue'
-export { default as ModalSampleFormSubmit } from './ModalSampleFormSubmit.vue'
-export { default as ModalSampleCustomProps } from './ModalSampleCustomProps.vue'
-export { default as ModalSampleDrawer } from './ModalSampleDrawer.vue'
+// export { default as ModalSampleFormSubmit } from './ModalSampleFormSubmit.vue'
+// export { default as ModalSampleCustomProps } from './ModalSampleCustomProps.vue'
+// export { default as ModalSampleDrawer } from './ModalSampleDrawer.vue'
