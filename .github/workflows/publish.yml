@@ -28,7 +28,8 @@ jobs:
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
         run: yarn
       - run: yarn build
-      - run: cd packages/vue
-      - run: npm publish
+      - name: Publish
+        working-directory: ./packages/vue
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
