@@ -1,24 +1,14 @@
-import { onMounted, reactive, ref, toRef, toRefs, unref } from 'vue'
+import { onMounted, reactive, ref, toRefs, unref, computed } from 'vue'
 import { defu } from "defu"
 
-export type SearchQueryParam = {
-  [key: string]: any
-}
-
-// todo pageSize默认值应该可配置
-const SearchQueryDefaultParam = {
-  pageNum: 1,
-  pageSize: 20
+export interface SearchQuery {
+  pageNum?: number
+  pageSize?: number
 }
 
 export type ResponseProps = {
   resultData: string,
   total: string
-}
-
-const ResponseDefaultProps = {
-  resultData: 'list',
-  total: 'count'
 }
 
 export type Pagination = {
@@ -27,9 +17,9 @@ export type Pagination = {
   total: number
 }
 
-export interface TableOptions {
+export interface TableOptions<TSearchQuery extends SearchQuery = SearchQuery> {
   tableDataResolver: (...p: any[]) => Promise<any>
-  searchQuery?: SearchQueryParam
+  searchQuery?: TSearchQuery
   isPagination?: boolean
   hasMounted?: boolean
   shim?: <T>(list: T[]) => any[]
@@ -38,30 +28,40 @@ export interface TableOptions {
 
 export type MiddleReliefTableOptions = {
   tableDataResolver: { list: any[], total: number },
-  searchQuery?: SearchQueryParam
+  searchQuery?: SearchQuery
 }
 
 /**
  * table hook
  */
-export function useTable(options: TableOptions) {
-  // todo 验证
-  if (!options.tableDataResolver) {
-    throw new Error("TableDataResolver is required.")
-  }
+export function useTable<TSearchQuery extends SearchQuery>(
+  tableDataResolver: (...p: any[]) => Promise<any>,
+  searchQuery: TSearchQuery | undefined = { pageNum: 1, pageSize: 20 } as TSearchQuery,
+  isPagination?: boolean,
+  hasMounted?: boolean,
+  responseProps: ResponseProps | undefined = { resultData: 'list', total: 'count' }
+) {
+  const shim = <T>(list: T[]) => list
 
-  const { tableDataResolver } = toRefs(options);
+  if (!searchQuery.pageNum)
+    searchQuery.pageNum = 1
 
-  const searchQuery = ref(defu(options.searchQuery, SearchQueryDefaultParam))
-  const isPagination = ref(options.isPagination == undefined ? true : options.isPagination)
-  const hasMounted = ref(options.hasMounted == undefined ? true : options.hasMounted)
-  const shim = ref(options.shim || ((list: any[]) => list))
-  const responseProps = ref(defu(options.responseProps, ResponseDefaultProps))
+  if (!searchQuery.pageSize)
+    searchQuery.pageSize = 10
 
-  const pagination = ref<Pagination | undefined>({
-    defaultCurrent: searchQuery.value.pageNum,
-    defaultPageSize: searchQuery.value.pageSize,
-    total: 0
+
+  const requiredSearchQuery = computed<Required<TSearchQuery>>(() => ({ pageNum: searchQuery.pageNum, pageSize: searchQuery.pageSize, ...searchQuery } as Required<TSearchQuery>))
+
+  const pagination = computed<Pagination | undefined>(() => {
+    if (isPagination) {
+      return {
+        defaultCurrent: requiredSearchQuery.value.pageNum,
+        defaultPageSize: requiredSearchQuery.value.pageSize,
+        total: 0
+      } as Pagination
+    } else {
+      return undefined
+    }
   })
 
   const o = reactive<{
@@ -82,18 +82,17 @@ export function useTable(options: TableOptions) {
     unref(tableDataResolver)(...args)
       .then((res) => {
         const { data } = res
-        if (isPagination.value) {
+        if (isPagination) {
           const {
-            [responseProps.value.resultData]: list,
-            [responseProps.value.total]: count
+            [responseProps.resultData]: list,
+            [responseProps.total]: count
           } = data
-          o.list = shim.value(list)
+          o.list = shim(list)
           o.total = count
           pagination.value && (pagination.value.total = count)
         } else {
-          o.list = shim.value(data)
+          o.list = shim(data)
           o.total = o.list.length
-          pagination.value = undefined
         }
         resolve(data)
       }).catch((error) => {
@@ -105,16 +104,16 @@ export function useTable(options: TableOptions) {
   })
 
   const handlePageSizeChange = (val: number) => {
-    searchQuery.value.pageSize = val
+    requiredSearchQuery.value.pageSize = val
     getList()
   }
 
   const handleCurrentPageChange = (val: number) => {
-    searchQuery.value.pageNum = val
+    requiredSearchQuery.value.pageNum = val
     getList()
   }
 
-  if (hasMounted.value) {
+  if (hasMounted) {
     onMounted(() => {
       getList()
     })
@@ -128,7 +127,7 @@ export function useTable(options: TableOptions) {
     getList,
     handleCurrentPageChange,
     handlePageSizeChange,
-    searchQuery,
+    requiredSearchQuery: searchQuery,
     pagination
   }
 }
@@ -141,7 +140,7 @@ export function useMiddleReliefTable(
     throw new Error("TableDataResolver is required.")
   }
 
-  const searchQuery = ref(defu(options.searchQuery, SearchQueryDefaultParam))
+  const searchQuery = ref(options.searchQuery || { pageNum: 1, pageSize: 20 })
 
   const handlePageSizeChange = (val: number) => {
     searchQuery.value.pageSize = val
