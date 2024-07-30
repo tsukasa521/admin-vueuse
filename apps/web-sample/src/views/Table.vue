@@ -38,7 +38,7 @@ const options = reactive<TableOptions>({
   tableDataResolver: searchTableByPage
 })
 
-const { getList, list, listLoading, searchQuery, pagination } = useTable(options)
+const { getList, list, listLoading, searchQuery, pagination } = useTable(searchTableByPage)
 
 const search = () => { getList() }
 

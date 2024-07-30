@@ -127,7 +127,7 @@ export function useTable<TSearchQuery extends SearchQuery>(
     getList,
     handleCurrentPageChange,
     handlePageSizeChange,
-    requiredSearchQuery: searchQuery,
+    searchQuery: requiredSearchQuery,
     pagination
   }
 }
