@@ -37,8 +37,8 @@ export type MiddleReliefTableOptions = {
 export function useTable<TSearchQuery extends SearchQuery>(
   tableDataResolver: (...p: any[]) => Promise<any>,
   searchQuery: TSearchQuery | undefined = { pageNum: 1, pageSize: 20 } as TSearchQuery,
-  isPagination?: boolean,
-  hasMounted?: boolean,
+  isPagination: boolean | undefined = true,
+  hasMounted: boolean | undefined = true,
   responseProps: ResponseProps | undefined = { resultData: 'list', total: 'count' }
 ) {
   const shim = <T>(list: T[]) => list
