@@ -9,9 +9,9 @@
       </p>
     </div>
     <SamplePanel title="基础用法" description="当子元素中包含时，全部子元素会水平排列，否则会垂直排列。">
-      <div>
-        <input class="border border-solid" type="text" v-model="searchQuery.name">
-        <button class="bg-primary text-white" @click="search">搜索</button>
+      <div class="flex gap-3">
+        <input class="border border-solid px-2" type="text" v-model="searchQuery.name">
+        <button class="bg-primary text-white px-3 py-1" @click="search">搜索</button>
       </div>
       <table border="1" class="w-full">
         <tr class="w-1/2">
@@ -34,23 +34,14 @@
 
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import { TableOptions, useTable } from "@2kk/admin-vueuse";
+import { useTable } from "@2kk/admin-vueuse";
 import SamplePanel from "@/components/SamplePanel.vue";
 import { searchTableByPage, searchTable, searchTable2 } from '@/apis'
 
-const options = reactive<TableOptions>({
-  tableDataResolver: searchTableByPage
-})
-
-const { getList, list, listLoading, searchQuery, pagination } = useTable(searchTableByPage)
-
+const { getList, list, listLoading, searchQuery, pagination } = useTable(searchTableByPage, { name: '' })
 const search = () => {
   searchQuery.value.pageNum = 1
   getList()
-}
-
-const change = () => {
-  options.tableDataResolver = searchTable2
 }
 </script>
 
