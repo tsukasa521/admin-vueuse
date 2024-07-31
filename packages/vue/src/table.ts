@@ -1,9 +1,13 @@
 import { onMounted, reactive, ref, toRefs, unref, computed } from 'vue'
 import { defu } from "defu"
 
+export interface PartialSearchQuery extends Partial<SearchQuery> {
+  [key: string]: any
+}
+
 export interface SearchQuery {
-  pageNum?: number
-  pageSize?: number
+  pageNum: number
+  pageSize: number
 }
 
 export type ResponseProps = {
@@ -17,31 +21,22 @@ export type Pagination = {
   total: number
 }
 
-export interface TableOptions<TSearchQuery extends SearchQuery = SearchQuery> {
-  tableDataResolver: (...p: any[]) => Promise<any>
-  searchQuery?: TSearchQuery
-  isPagination?: boolean
-  hasMounted?: boolean
-  shim?: <T>(list: T[]) => any[]
-  responseProps?: ResponseProps
-}
-
 export type MiddleReliefTableOptions = {
   tableDataResolver: { list: any[], total: number },
-  searchQuery?: SearchQuery
+  searchQuery?: PartialSearchQuery
 }
 
 /**
  * table hook
  */
-export function useTable<TSearchQuery extends SearchQuery>(
+export function useTable<TSearchQuery extends PartialSearchQuery>(
   tableDataResolver: (...p: any[]) => Promise<any>,
   searchQuery: TSearchQuery | undefined = { pageNum: 1, pageSize: 20 } as TSearchQuery,
   isPagination: boolean | undefined = true,
   hasMounted: boolean | undefined = true,
+  shim: <TSource, TTarget>(list: TSource[]) => TTarget[] = (list: any[]) => list,
   responseProps: ResponseProps | undefined = { resultData: 'list', total: 'count' }
 ) {
-  const shim = <T>(list: T[]) => list
 
   if (!searchQuery.pageNum)
     searchQuery.pageNum = 1
@@ -50,7 +45,7 @@ export function useTable<TSearchQuery extends SearchQuery>(
     searchQuery.pageSize = 10
 
 
-  const requiredSearchQuery = computed<Required<TSearchQuery>>(() => ({ pageNum: searchQuery.pageNum, pageSize: searchQuery.pageSize, ...searchQuery } as Required<TSearchQuery>))
+  const requiredSearchQuery = computed<TSearchQuery & SearchQuery>(() => ({ pageNum: searchQuery.pageNum, pageSize: searchQuery.pageSize, ...searchQuery } as TSearchQuery & SearchQuery))
 
   const pagination = computed<Pagination | undefined>(() => {
     if (isPagination) {
@@ -77,7 +72,7 @@ export function useTable<TSearchQuery extends SearchQuery>(
   const getList = () => new Promise((resolve, reject) => {
     o.listLoading = true
 
-    const args = [unref(searchQuery)]
+    const args = [unref(requiredSearchQuery)]
 
     unref(tableDataResolver)(...args)
       .then((res) => {
