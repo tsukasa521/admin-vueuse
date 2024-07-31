@@ -1,4 +1,4 @@
-import { onMounted, reactive, ref, toRefs, unref, computed } from 'vue'
+import { onMounted, ref, unref, computed, Ref } from 'vue'
 import { defu } from "defu"
 
 export interface PartialSearchQuery extends Partial<SearchQuery> {
@@ -29,12 +29,12 @@ export type MiddleReliefTableOptions = {
 /**
  * table hook
  */
-export function useTable<TSearchQuery extends PartialSearchQuery>(
-  tableDataResolver: (...p: any[]) => Promise<any>,
+export function useTable<TSearchQuery extends PartialSearchQuery, TTarget = any>(
+  tableDataResolver: (...args: any[]) => Promise<any>,
   searchQuery: TSearchQuery | undefined = { pageNum: 1, pageSize: 20 } as TSearchQuery,
   isPagination: boolean | undefined = true,
   hasMounted: boolean | undefined = true,
-  shim: <TSource, TTarget>(list: TSource[]) => TTarget[] = (list: any[]) => list,
+  shim: <TSource>(list: TSource[]) => TTarget[] = (list: any[]) => list,
   responseProps: ResponseProps | undefined = { resultData: 'list', total: 'count' }
 ) {
 
@@ -47,30 +47,21 @@ export function useTable<TSearchQuery extends PartialSearchQuery>(
 
   const requiredSearchQuery = computed<TSearchQuery & SearchQuery>(() => ({ pageNum: searchQuery.pageNum, pageSize: searchQuery.pageSize, ...searchQuery } as TSearchQuery & SearchQuery))
 
-  const pagination = computed<Pagination | undefined>(() => {
-    if (isPagination) {
-      return {
-        defaultCurrent: requiredSearchQuery.value.pageNum,
-        defaultPageSize: requiredSearchQuery.value.pageSize,
-        total: 0
-      } as Pagination
-    } else {
-      return undefined
-    }
+  const pagination = computed<Pagination>(() => {
+    return {
+      defaultCurrent: requiredSearchQuery.value.pageNum,
+      defaultPageSize: requiredSearchQuery.value.pageSize,
+      total: 0
+    } as Pagination
   })
 
-  const o = reactive<{
-    listLoading: boolean,
-    list: any[],
-    total: number
-  }>({
-    listLoading: false,
-    list: [],
-    total: 0
-  })
+
+  const listLoading = ref(false)
+
+  const list = ref<TTarget[]>([]) as Ref<TTarget[]>
 
   const getList = () => new Promise((resolve, reject) => {
-    o.listLoading = true
+    listLoading.value = true
 
     const args = [unref(requiredSearchQuery)]
 
@@ -79,22 +70,21 @@ export function useTable<TSearchQuery extends PartialSearchQuery>(
         const { data } = res
         if (isPagination) {
           const {
-            [responseProps.resultData]: list,
-            [responseProps.total]: count
+            [responseProps.resultData]: responseList,
+            [responseProps.total]: responseCount
           } = data
-          o.list = shim(list)
-          o.total = count
-          pagination.value && (pagination.value.total = count)
+          list.value = shim(responseList)
+          pagination.value.total = responseCount
         } else {
-          o.list = shim(data)
-          o.total = o.list.length
+          list.value = shim(data)
+          pagination.value.total = list.value.length
         }
         resolve(data)
       }).catch((error) => {
         reject(error)
       })
       .finally(() => {
-        o.listLoading = false
+        listLoading.value = false
       })
   })
 
@@ -114,10 +104,8 @@ export function useTable<TSearchQuery extends PartialSearchQuery>(
     })
   }
 
-  const { list, total, listLoading } = toRefs(o)
   return {
     list,
-    total,
     listLoading,
     getList,
     handleCurrentPageChange,
