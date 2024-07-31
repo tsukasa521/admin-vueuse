@@ -9,14 +9,18 @@
       </p>
     </div>
     <SamplePanel title="基础用法" description="当子元素中包含时，全部子元素会水平排列，否则会垂直排列。">
+      <div>
+        <input class="border border-solid" type="text" v-model="searchQuery.name">
+        <button class="bg-primary text-white" @click="search">搜索</button>
+      </div>
       <table border="1" class="w-full">
         <tr class="w-1/2">
           <th class="text-left text-base">姓名</th>
           <th class="text-left text-base">年龄</th>
         </tr>
         <tr class="w-1/2" v-for="(item, index) in list">
-          <td>{{ item.name }}</td>
-          <td>{{ item.userAge }}</td>
+          <td>{{ item.userName }}</td>
+          <td>{{ item.age }}</td>
         </tr>
       </table>
     </SamplePanel>
@@ -40,7 +44,10 @@ const options = reactive<TableOptions>({
 
 const { getList, list, listLoading, searchQuery, pagination } = useTable(searchTableByPage)
 
-const search = () => { getList() }
+const search = () => {
+  searchQuery.value.pageNum = 1
+  getList()
+}
 
 const change = () => {
   options.tableDataResolver = searchTable2

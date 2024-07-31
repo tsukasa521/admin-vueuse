@@ -8,6 +8,7 @@ export default {
   theme: {
     colors: {
       primary: 'var(--td-brand-color-7)',
+      white: '#fff',
     },
     extend: {
       textColor: {
