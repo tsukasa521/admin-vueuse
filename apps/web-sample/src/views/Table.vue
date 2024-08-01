@@ -19,7 +19,7 @@
           <th class="text-left text-base">年龄</th>
         </tr>
         <tr class="w-1/2" v-for="(item, index) in list">
-          <td>{{ item.userName }}</td>
+          <td>{{ item.name }}</td>
           <td>{{ item.age }}</td>
         </tr>
       </table>
@@ -38,7 +38,8 @@ import { useTable } from "@2kk/admin-vueuse";
 import SamplePanel from "@/components/SamplePanel.vue";
 import { searchTableByPage, searchTable, searchTable2 } from '@/apis'
 
-const { getList, list, listLoading, searchQuery, pagination } = useTable(searchTableByPage, { name: '' })
+const { getList, list, listLoading, searchQuery, pagination } = useTable(searchTableByPage, { name: '' }, true, true, (list: any[]) => list.map(p => ({ name: p.userName, age: p.age })))
+
 const search = () => {
   searchQuery.value.pageNum = 1
   getList()
