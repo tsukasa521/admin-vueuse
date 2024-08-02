@@ -23,7 +23,7 @@ export type Pagination = {
 
 export type MiddleReliefTableOptions = {
   tableDataResolver: { list: any[], total: number },
-  searchQuery?: PartialSearchQuery
+  searchQuery: Required<PartialSearchQuery>
 }
 
 /**
@@ -119,12 +119,8 @@ export function useMiddleReliefTable(
   emits: any,
   options: MiddleReliefTableOptions
 ) {
-  if (!options.tableDataResolver) {
-    throw new Error("TableDataResolver is required.")
-  }
-
-  const searchQuery = ref(options.searchQuery || { pageNum: 1, pageSize: 20 })
-
+  const searchQuery = ref(options.searchQuery)
+  
   const handlePageSizeChange = (val: number) => {
     searchQuery.value.pageSize = val
     emits('page-size-change')
