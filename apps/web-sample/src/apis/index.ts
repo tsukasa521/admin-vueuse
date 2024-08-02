@@ -1,4 +1,4 @@
-const TABLE_MOCK_DATA = [
+export const TABLE_MOCK_DATA = [
   { id: 1, userName: '廖涵衍', age: 25 },
   { id: 2, userName: '邓毅然', age: 25 },
   { id: 3, userName: '谢承望', age: 25 },

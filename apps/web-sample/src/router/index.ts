@@ -10,7 +10,7 @@ export const routes: RouteRecordRaw[] = [
   {
     path: '/table',
     meta: { title: 'useTable示例', module: "基础" },
-    component: () => import('@/views/Table.vue'),
+    component: () => import('@/views/vue/table/Table.vue'),
   },
   {
     path: '/message',
