@@ -12,8 +12,8 @@ export function useTable<TSearchQuery extends PartialSearchQuery, TTarget = any>
     = useVueTable(tableDataResolver, searchQuery, isPagination, hasMounted, shim, responseProps);
 
   const handlePageChange = (currentPage: number, pageSize: number) => {
-    searchQuery.value.pageSize = pageSize
-    searchQuery.value.pageNum = currentPage
+    searchQueryInner.value.pageSize = pageSize
+    searchQueryInner.value.pageNum = currentPage
     getList()
   }
 
