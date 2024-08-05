@@ -15,15 +15,14 @@
 
     <TableSampleNoMounted />
 
-    <!-- <TableSampleCustomerResponse />
+    <TableSampleCustomerResponse />
 
-    <TableSampleDynamicDataResolver /> -->
+    <TableSampleDynamicDataResolver />
 
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
 import {
   TableSampleStandard,
   TableSampleNoPagination,
