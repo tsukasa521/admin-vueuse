@@ -45,7 +45,7 @@ export function useTable<TSearchQuery extends PartialSearchQuery, TTarget = any>
     searchQuery.pageSize = 10
 
 
-  const requiredSearchQuery = computed<TSearchQuery & SearchQuery>(() => ({ pageNum: searchQuery.pageNum, pageSize: searchQuery.pageSize, ...searchQuery } as TSearchQuery & SearchQuery))
+  const requiredSearchQuery = ref<TSearchQuery & SearchQuery>(searchQuery as TSearchQuery & SearchQuery)
 
   const pagination = computed<Pagination>(() => {
     return {
@@ -120,7 +120,7 @@ export function useMiddleReliefTable(
   options: MiddleReliefTableOptions
 ) {
   const searchQuery = ref(options.searchQuery)
-  
+
   const handlePageSizeChange = (val: number) => {
     searchQuery.value.pageSize = val
     emits('page-size-change')
