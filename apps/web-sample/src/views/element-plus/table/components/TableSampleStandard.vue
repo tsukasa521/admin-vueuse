@@ -15,26 +15,22 @@
       <el-table-column prop="age" label="年龄" />
     </el-table>
     <div class="mt-5 flex justify-end">
-      <el-pagination layout="prev, pager, next" :total="total" @change="handlePageChange" />
+      <el-pagination layout="prev, pager, next" :total="pagination.total" @change="handlePageChange" />
     </div>
   </SamplePanel>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
-import { TableOptions } from "@2kk/admin-vueuse";
+import { ref } from "vue";
 import { useTable } from "@2kk/admin-vueuse-element-plus";
-import SamplePanel from "@/components/SamplePanel.vue";
 import { searchTableByPage } from '@/apis'
 
-const options = reactive<TableOptions>({
-  tableDataResolver: searchTableByPage,
-  searchQuery: { pageSize: 10, name: '' }
-})
+const { getList, list, listLoading, searchQuery, pagination, handlePageChange } = useTable(searchTableByPage, { name: '' })
 
-const { getList, list, listLoading, total, searchQuery, pagination, handlePageChange } = useTable(options)
-
-const search = () => { getList() }
+const search = () => {
+  searchQuery.value.pageNum = 1
+  getList()
+}
 </script>
 
 <style lang="scss" scoped></style>

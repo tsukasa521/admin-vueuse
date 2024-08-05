@@ -16,18 +16,11 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
-import { TableOptions } from "@2kk/admin-vueuse";
+import { ref } from "vue";
 import { useTable } from "@2kk/admin-vueuse-tdesign";
-import SamplePanel from "@/components/SamplePanel.vue";
 import { searchTableByPage } from '@/apis'
 
-const options = reactive<TableOptions>({
-  tableDataResolver: searchTableByPage,
-  searchQuery: { pageSize: 10, name: '' }
-})
-
-const { getList, list, listLoading, searchQuery, pagination, handlePageChange } = useTable(options)
+const { getList, list, listLoading, searchQuery, pagination, handlePageChange } = useTable(searchTableByPage, { pageSize: 10, name: '' })
 
 const columns = ref([
   { colKey: 'id', title: 'ID' },
@@ -35,7 +28,10 @@ const columns = ref([
   { colKey: 'age', title: '年龄' },
 ])
 
-const search = () => { getList() }
+const search = () => {
+  searchQuery.value.pageNum = 1
+  getList()
+}
 </script>
 
 <style lang="scss" scoped></style>

@@ -11,13 +11,13 @@
 
     <TableSampleStandard />
 
-    <TableSampleNoPagination />
+    <!-- <TableSampleNoPagination />
 
     <TableSampleNoMounted />
 
     <TableSampleCustomerResponse />
 
-    <TableSampleDynamicDataResolver />
+    <TableSampleDynamicDataResolver /> -->
 
   </div>
 </template>
