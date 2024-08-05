@@ -11,11 +11,11 @@
 
     <TableSampleStandard />
 
-    <!-- <TableSampleNoPagination />
+    <TableSampleNoPagination />
 
     <TableSampleNoMounted />
 
-    <TableSampleCustomerResponse />
+    <!-- <TableSampleCustomerResponse />
 
     <TableSampleDynamicDataResolver /> -->
 
