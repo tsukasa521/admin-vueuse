@@ -28,11 +28,11 @@ yarn dev
 ```
 
 # Todo
-[] 设计一个logo
-[x] 丰富示例站里的示例
-[] charts支持style参数
-[x] 新增github action
-[] 支持uni-app vue3
+- [ ] 设计一个logo
+- [x] 丰富示例站里的示例
+- [ ] charts支持style参数
+- [x] 新增github action
+- [ ] 支持uni-app vue3
 
 <br>
 <br>
