@@ -1,0 +1,40 @@
+{
+  "name": "web-sample-js",
+  "version": "0.0.0",
+  "description": "A vue 3 hooks like vueuse for admin website",
+  "type": "module",
+  "keywords": [],
+  "author": "kk++",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "oxlint src",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@2kk/admin-vueuse": "*",
+    "@2kk/admin-vueuse-echarts": "*",
+    "@2kk/admin-vueuse-element-plus": "*",
+    "@2kk/admin-vueuse-tdesign": "*",
+    "echarts": "^5.4.3",
+    "element-plus": "^2.7.5",
+    "tdesign-vue-next": "^1.6.2",
+    "vue": "^3.3.4",
+    "vue-router": "^4.1.6"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^3.2.0",
+    "autoprefixer": "^10.4.19",
+    "cross-env": "^7.0.3",
+    "oxlint": "^0.6.1",
+    "postcss": "^8.4.38",
+    "sass": "^1.69.3",
+    "tailwindcss": "^3.4.4",
+    "vite": "^3.2.4"
+  }
+}
