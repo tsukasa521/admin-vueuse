@@ -1,8 +1,8 @@
 import { PageInfo } from "tdesign-vue-next";
-import { PartialSearchQuery, ResponseProps, useTable as useVueTable } from "@2kk/admin-vueuse";
+import { PartialSearchQuery, ResponseProps, TableDataResolver, useTable as useVueTable } from "@2kk/admin-vueuse";
 
 export function useTable<TSearchQuery extends PartialSearchQuery, TTarget = any>(
-  tableDataResolver: (...args: any[]) => Promise<any>,
+  tableDataResolver: TableDataResolver,
   searchQuery: TSearchQuery | undefined = { pageNum: 1, pageSize: 20 } as TSearchQuery,
   isPagination: boolean | undefined = true,
   hasMounted: boolean | undefined = true,

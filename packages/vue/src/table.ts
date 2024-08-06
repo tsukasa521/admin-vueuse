@@ -1,6 +1,10 @@
 import { onMounted, ref, unref, computed, watch, Ref } from 'vue'
 import { defu } from "defu"
 
+export interface TableDataResolver {
+  func: (...args: any[]) => Promise<any>
+}
+
 export interface PartialSearchQuery extends Partial<SearchQuery> {
   [key: string]: any
 }
@@ -30,7 +34,7 @@ export type MiddleReliefTableOptions = {
  * table hook
  */
 export function useTable<TSearchQuery extends PartialSearchQuery, TTarget = any>(
-  tableDataResolver: (...args: any[]) => Promise<any>,
+  tableDataResolver: TableDataResolver,
   searchQuery: TSearchQuery | undefined = { pageNum: 1, pageSize: 20 } as TSearchQuery,
   isPagination: boolean | undefined = true,
   hasMounted: boolean | undefined = true,
@@ -66,7 +70,7 @@ export function useTable<TSearchQuery extends PartialSearchQuery, TTarget = any>
 
     const args = [unref(requiredSearchQuery)]
 
-    unref(tableDataResolver)(...args)
+    unref(tableDataResolver).func(...args)
       .then((res) => {
         const { data } = res
         if (isPagination) {
