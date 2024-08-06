@@ -18,6 +18,11 @@ export const routes: RouteRecordRaw[] = [
     component: () => import('@/views/Message.vue'),
   },
   {
+    path: '/form',
+    meta: { title: 'useForm示例', module: "基础" },
+    component: () => import('@/views/vue/form/Form.vue'),
+  },
+  {
     path: '/tdesign/table',
     meta: { title: 'useTable示例', module: "tdesign" },
     component: () => import('@/views/tdesign/table/Table.vue'),
