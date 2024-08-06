@@ -1,4 +1,4 @@
-import { onMounted, ref, unref, computed, Ref } from 'vue'
+import { onMounted, ref, unref, computed, watch, Ref } from 'vue'
 import { defu } from "defu"
 
 export interface PartialSearchQuery extends Partial<SearchQuery> {
@@ -44,17 +44,18 @@ export function useTable<TSearchQuery extends PartialSearchQuery, TTarget = any>
   if (!searchQuery.pageSize)
     searchQuery.pageSize = 10
 
-
   const requiredSearchQuery = ref<TSearchQuery & SearchQuery>(searchQuery as TSearchQuery & SearchQuery)
 
-  const pagination = computed<Pagination>(() => {
-    return {
-      defaultCurrent: requiredSearchQuery.value.pageNum,
-      defaultPageSize: requiredSearchQuery.value.pageSize,
-      total: 0
-    } as Pagination
-  })
+  const pagination = ref<Pagination>({
+    defaultCurrent: requiredSearchQuery.value.pageNum,
+    defaultPageSize: requiredSearchQuery.value.pageSize,
+    total: 0
+  } as Pagination)
 
+  watch(searchQuery, () => {
+    pagination.value.defaultCurrent = searchQuery.value.pageNum
+    pagination.value.defaultPageSize = searchQuery.value.pageSize
+  })
 
   const listLoading = ref(false)
 
