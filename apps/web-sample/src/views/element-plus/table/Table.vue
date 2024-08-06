@@ -11,7 +11,7 @@
 
     <TableSampleStandard />
 
-    <!-- <TableSampleNoPagination /> -->
+    <TableSampleNoPagination />
 
     <!-- <TableSampleNoMounted /> -->
 

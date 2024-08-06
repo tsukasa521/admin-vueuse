@@ -18,21 +18,15 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
-import { TableOptions } from "@2kk/admin-vueuse";
 import { useTable } from "@2kk/admin-vueuse-element-plus";
-import SamplePanel from "@/components/SamplePanel.vue";
 import { searchTable } from '@/apis'
 
-const options = reactive<TableOptions>({
-  tableDataResolver: searchTable,
-  searchQuery: { name: '' },
-  isPagination: false
-})
+const { getList, list, listLoading, searchQuery } = useTable({ func: searchTable }, { name: '' }, false)
 
-const { getList, list, listLoading, searchQuery } = useTable(options)
-
-const search = () => { getList() }
+const search = () => {
+  searchQuery.value.pageNum = 1
+  getList()
+}
 </script>
 
 <style lang="scss" scoped></style>

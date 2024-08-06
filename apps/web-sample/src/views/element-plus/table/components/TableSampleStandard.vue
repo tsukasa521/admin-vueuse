@@ -21,11 +21,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import { useTable } from "@2kk/admin-vueuse-element-plus";
 import { searchTableByPage } from '@/apis'
 
-const { getList, list, listLoading, searchQuery, pagination, handlePageChange } = useTable(searchTableByPage, { name: '' })
+const { getList, list, listLoading, searchQuery, pagination, handlePageChange } = useTable({ func: searchTableByPage }, { name: '' })
 
 const search = () => {
   searchQuery.value.pageNum = 1
