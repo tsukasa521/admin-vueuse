@@ -21,11 +21,11 @@ export const TABLE_MOCK_DATA = [
 ]
 
 const TABLE_MOCK_DATA2 = [
-  { id: 1, userName: '廖涵衍', age: 25 },
-  { id: 2, userName: '邓毅然', age: 25 },
-  { id: 3, userName: '谢承望', age: 25 },
-  { id: 4, userName: '胡嘉荣', age: 25 },
-  { id: 5, userName: '胡和平', age: 25 },
+  { id: 1, userName: '霍元甲', age: 25 },
+  { id: 2, userName: '叶问', age: 25 },
+  { id: 3, userName: '陈真', age: 25 },
+  { id: 4, userName: '黄飞鸿', age: 25 },
+  { id: 5, userName: '霍东阁', age: 25 },
 ]
 
 /**
@@ -54,7 +54,7 @@ export const searchTableByPage = (query: any) => {
 }
 
 export const searchTable = (query: any) => {
-  console.log("query", query);
+  console.log("query in searchTable", query);
 
   return new Promise((resolve, reject) => {
     let list: any[] = TABLE_MOCK_DATA;
@@ -67,7 +67,7 @@ export const searchTable = (query: any) => {
 }
 
 export const searchTable2 = (query: any) => {
-  console.log("query", query);
+  console.log("query in searchTable2", query);
 
   return new Promise((resolve, reject) => {
     let list: any[] = TABLE_MOCK_DATA2;

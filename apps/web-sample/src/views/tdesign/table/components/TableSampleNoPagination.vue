@@ -20,7 +20,7 @@ import { useTable } from "@2kk/admin-vueuse-tdesign";
 import SamplePanel from "@/components/SamplePanel.vue";
 import { searchTable } from '@/apis'
 
-const { getList, list, listLoading, searchQuery, pagination } = useTable(searchTable, { name: '' }, false, true)
+const { getList, list, listLoading, searchQuery, pagination } = useTable({ func: searchTable }, { name: '' }, false, true)
 
 const columns = ref([
   { colKey: 'id', title: 'ID' },

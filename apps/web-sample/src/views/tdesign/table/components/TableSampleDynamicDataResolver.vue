@@ -20,11 +20,12 @@
 
 <script setup lang="ts">
 import { reactive, ref } from "vue";
+import { TableDataResolver } from "@2kk/admin-vueuse";
 import { useTable } from "@2kk/admin-vueuse-tdesign";
 import { searchTable, searchTable2 } from '@/apis'
 
-const tableDataResolver = reactive({ api: searchTable })
-const { getList, list, listLoading, searchQuery, pagination, handlePageChange } = useTable(tableDataResolver.api, { name: '' }, false, true)
+const tableDataResolver = reactive<TableDataResolver>({ func: searchTable })
+const { getList, list, listLoading, searchQuery, pagination, handlePageChange } = useTable(tableDataResolver, { name: '' }, false, true)
 
 const columns = ref([
   { colKey: 'id', title: 'ID' },
@@ -39,8 +40,7 @@ const search = () => {
 
 const change = () => {
   console.log("change");
-  
-  tableDataResolver.api = searchTable2
+  tableDataResolver.func = searchTable2
 }
 </script>
 

@@ -21,7 +21,7 @@ import { useTable } from "@2kk/admin-vueuse-tdesign";
 import SamplePanel from "@/components/SamplePanel.vue";
 import { searchTableByPage } from '@/apis'
 
-const { getList, list, listLoading, searchQuery, pagination, handlePageChange } = useTable(searchTableByPage, { pageSize: 10, name: '' }, true, false)
+const { getList, list, listLoading, searchQuery, pagination, handlePageChange } = useTable({ func: searchTableByPage }, { pageSize: 10, name: '' }, true, false)
 
 const columns = ref([
   { colKey: 'id', title: 'ID' },
