@@ -1,33 +1,30 @@
 <template>
   <SamplePanel title="进入页面不马上搜索" description="当子元素中包含时，全部子元素会水平排列，否则会垂直排列。">
     <div>
-      <t-form :data="searchQuery" layout="inline" label-width="0" @submit="search">
-        <t-form-item>
-          <t-input v-model="searchQuery.name" placeholder="请输入姓名"></t-input>
-        </t-form-item>
-        <t-form-item>
-          <t-button theme="primary" type="submit">搜索</t-button>
-        </t-form-item>
-      </t-form>
+      <el-form :model="searchQuery" inline label-width="0">
+        <el-form-item>
+          <el-input v-model="searchQuery.name" placeholder="请输入姓名"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="search">搜索</el-button>
+        </el-form-item>
+      </el-form>
     </div>
-    <t-table rowKey="id" :data="list" :columns="columns" size="small" :loading="listLoading" :pagination="pagination"
-      @page-change="handlePageChange"></t-table>
+    <el-table :data="list" size="small" :loading="listLoading">
+      <el-table-column prop="userName" label="姓名" />
+      <el-table-column prop="age" label="年龄" />
+    </el-table>
+    <div class="mt-5 flex justify-end">
+      <el-pagination layout="prev, pager, next" :total="pagination.total" @change="handlePageChange" />
+    </div>
   </SamplePanel>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { useTable } from "@2kk/admin-vueuse-tdesign";
-import SamplePanel from "@/components/SamplePanel.vue";
+import { useTable } from "@2kk/admin-vueuse-element-plus";
 import { searchTableByPage } from '@/apis'
 
 const { getList, list, listLoading, searchQuery, pagination, handlePageChange } = useTable({ func: searchTableByPage }, { pageSize: 10, name: '' }, true, false)
-
-const columns = ref([
-  { colKey: 'id', title: 'ID' },
-  { colKey: 'name', title: '姓名' },
-  { colKey: 'userAge', title: '年龄' },
-])
 
 const search = () => {
   searchQuery.value.pageNum = 1

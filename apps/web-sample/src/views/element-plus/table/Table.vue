@@ -13,7 +13,7 @@
 
     <TableSampleNoPagination />
 
-    <!-- <TableSampleNoMounted /> -->
+    <TableSampleNoMounted />
 
     <!-- <TableSampleCustomerResponse /> -->
 
