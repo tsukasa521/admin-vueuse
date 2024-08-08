@@ -15,7 +15,7 @@
 
     <TableSampleNoMounted />
 
-    <!-- <TableSampleCustomerResponse /> -->
+    <TableSampleCustomerResponse />
 
     <!-- <TableSampleDynamicDataResolver /> -->
 
