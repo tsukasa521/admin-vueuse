@@ -24,7 +24,6 @@ import { searchTable } from '@/apis'
 const { getList, list, listLoading, searchQuery } = useTable({ func: searchTable }, { name: '' }, false)
 
 const search = () => {
-  searchQuery.value.pageNum = 1
   getList()
 }
 </script>

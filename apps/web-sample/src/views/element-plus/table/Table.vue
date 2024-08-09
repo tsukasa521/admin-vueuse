@@ -17,7 +17,7 @@
 
     <TableSampleCustomerResponse />
 
-    <!-- <TableSampleDynamicDataResolver /> -->
+    <TableSampleDynamicDataResolver />
 
   </div>
 </template>
