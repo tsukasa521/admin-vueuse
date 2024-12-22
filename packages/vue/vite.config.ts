@@ -1,6 +1,6 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
 import path from "path"
+import { defineConfig } from 'vite'
+import dts from 'vite-plugin-dts'
 
 export default defineConfig({
   server: {},
@@ -12,8 +12,8 @@ export default defineConfig({
       fileName: 'index',
     },
     rollupOptions: {
-      output: { globals: { vue: 'Vue', 'tdesign-vue-next': 'tdesign-vue-next' } },
-      external: ['vue', 'tdesign-vue-next'],
+      output: { globals: { vue: 'Vue' } },
+      external: ['vue'],
     },
   },
   resolve: {
@@ -21,5 +21,5 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-  plugins: [vue()],
+  plugins: [dts({ rollupTypes: true })],
 })
