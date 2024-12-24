@@ -22,6 +22,14 @@ export const visibleProps = {
   }
 }
 
+export const visibleEmits = [
+  'update:visible',
+  'open',
+  'closed',
+  'confirm',
+  'cancel'
+]
+
 export const addUpdateVisibleProps = {
   dataSource: Object
 }
